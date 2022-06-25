@@ -1,0 +1,53 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-06-20 20:15:51
+ * @LastEdiTime: 
+-->
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-06-20 20:15:51
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="http://localhost:3000/script?time=2000"></script>
+
+
+<body>
+    <h1>hello world!</h1>
+    <script src="http://localhost:3000/script?time=3000"></script>
+    <h1>hello world!</h1>
+    <script src="http://localhost:3000/script?time=5000"></script>
+    <h1 class="special">hello world!</h1>
+    <script src="http://localhost:3000/script?time=6000"></script>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOMContentLoaded');
+    });
+    window.addEventListener('load', (event) => {
+        console.log('loaded');
+    });
+</script>
+<style>
+    h1 {
+        color: lightblue;
+    }
+
+    .special {
+        transform: translateX(200px);
+    }
+</style>
+
+</html>

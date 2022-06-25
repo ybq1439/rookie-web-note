@@ -1,0 +1,38 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-06-20 22:35:52
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="left"></div>
+    <div id="right"></div>
+</body>
+<style>
+    #left {
+        width: 200px;
+        height: 200px;
+        float: left;
+        background-color: lightblue;
+    }
+
+    #right {
+        /* 触发 BFC */
+        overflow: hidden;
+        height: 200px;
+        background-color: lightcoral;
+    }
+</style>
+
+</html>

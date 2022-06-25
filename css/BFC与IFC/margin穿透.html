@@ -1,0 +1,43 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-06-20 21:33:55
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="container">
+        <div class="box">box1</div>
+        <div class="box">box2</div>
+    </div>
+</body>
+<style>
+    #container {
+        /* width: 500px; */
+        /* 触发 BFC  */
+        display: inline-block;
+    }
+
+
+    .box {
+        width: 200px;
+        height: 200px;
+        background-color: lightgreen;
+        margin-bottom: 10px;
+        /* 子元素的 margin 会重叠，并且 margin 不会影响到父元素层级(解决 margin 穿透) */
+        margin-top: 200px;
+        margin-left: 10px;
+    }
+</style>
+
+</html>

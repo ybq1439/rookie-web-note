@@ -1,0 +1,40 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-06-20 21:55:11
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="father">
+        <div id="son">
+
+        </div>
+    </div>
+</body>
+<style>
+    #father {
+        border: solid lightblue;
+        /* 触发 BFC 解决高度塌陷 */
+        overflow: hidden;
+    }
+
+    #son {
+        width: 100%;
+        height: 100px;
+        background-color: lightcoral;
+        float: left;
+    }
+</style>
+
+</html>
