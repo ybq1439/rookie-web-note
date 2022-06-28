@@ -1,0 +1,55 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-06-26 20:47:18
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <p class="block">我是块元素，我的高度、宽度都是可以设置的</p>
+        <br>
+        <span class="inline">我是行内元素，高宽是不确定的</span>
+    </div>
+</body>
+<style>
+    .container {
+        height: 500px;
+        background-color: lightblue;
+    }
+
+    .block {
+        background-color: lightcoral;
+        /* 设置宽高 */
+        height: 100px;
+        width: 200px;
+        /* 设置边距、边框 */
+        padding: 50px;
+        margin-left: 100px;
+        border: 1px solid blue;
+    }
+
+    .inline {
+        background-color: lightgreen;
+        /* 设置宽高 不可以 */
+        height: 100px;
+        width: 200px;
+
+        /* 设置边距、边框 可以*/
+        padding: 50px;
+        margin-left: 100px;
+        border: 1px solid blue;
+    }
+</style>
+
+</html>

@@ -1,0 +1,121 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-06-28 16:20:33
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            margin: 0 auto;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <img src="" data-src="./img/1.jpg" alt="">
+        <img src="" data-src="./img/2.jpg" alt="">
+        <img src="" data-src="./img/3.jpg" alt="">
+        <img src="" data-src="./img/4.jpg" alt="">
+        <img src="" data-src="./img/5.jpg" alt="">
+        <img src="" data-src="./img/6.jpg" alt="">
+        <img src="" data-src="./img/7.jpg" alt="">
+        <img src="" data-src="./img/8.jpg" alt="">
+        <img src="" data-src="./img/9.jpg" alt="">
+        <img src="" data-src="./img/10.jpg" alt="">
+        <img src="" data-src="./img/11.jpg" alt="">
+        <img src="" data-src="./img/12.jpg" alt="">
+        <img src="" data-src="./img/13.jpg" alt="">
+        <img src="" data-src="./img/14.jpg" alt="">
+        <img src="" data-src="./img/15.jpg" alt="">
+        <img src="" data-src="./img/16.jpg" alt="">
+        <img src="" data-src="./img/17.jpg" alt="">
+        <img src="" data-src="./img/18.jpg" alt="">
+        <img src="" data-src="./img/19.jpg" alt="">
+        <img src="" data-src="./img/20.jpg" alt="">
+        <img src="" data-src="./img/21.jpg" alt="">
+    </div>
+</body>
+<script>
+    function getOffSet(element) {
+        let offSet = element.offsetTop
+        while (element = element.offsetParent) {
+            // 这里因为 offsetTop 是针对 offsetParent 的，
+            // 有可能 offsetParent 不是 body 所以需要循环到 body.offsetParent = null
+            offSet += element.offsetTop
+        }
+        return offSet
+    }
+
+    function lazyLoad() {
+        let imgs = document.querySelectorAll('img')
+        let clientHeight = document.documentElement.clientHeight //获取可视区域高度
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+        for (let i = 0; i < imgs.length; i++) {
+            if (clientHeight + scrollTop > getOffSet(imgs[i])) {
+                console.log(`clientHeight+scrollTop = ${clientHeight}+${scrollTop}`)
+                console.log(getOffSet(imgs[i]))
+                imgs[i].src = imgs[i].getAttribute('data-src')
+            }
+        }
+    }
+
+    function deb(fn, delay, immediate) {
+        let timer = null
+        return function (...args) {
+            // 外边是执行一次的 这里才是绑定到监听事件上的函数
+            clearTimeout(timer)
+            // 如果 timer 没有值，那么就应该要触发事件
+            if (immediate && !timer) {
+                // 在 delay 这段时间内，控制 timer 有值，无法触发事件
+                timer = setTimeout(() => {
+                    // 置为 Null 下一次可以触发
+                    timer = null
+                }, delay)
+                fn.apply(this, args)
+            } else {
+                timer = setTimeout(() => {
+                    fn.apply(this, args)
+                }, delay);
+            }
+        }
+    }
+
+    function trottle(func, delay) {
+        let timer = null
+        return function (...args) {
+            if (timer) {
+                return
+            }
+            timer = setTimeout(() => {
+                func.apply(this, args)
+                timer = null
+            }, delay);
+        }
+    }
+    // lazyLoad()
+    let tro_onlazyImg = trottle(lazyLoad, 500)
+    // 让一开始执行一次
+    window.onload = tro_onlazyImg
+    // window.onscroll = tro_onlazyImg
+    // addEventListener 可以在一个事件上绑定多个回调函数
+    window.addEventListener('scroll', tro_onlazyImg)
+</script>
+
+</html>
