@@ -1,0 +1,77 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-06-28 22:11:58
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .margin {
+            margin: 100px;
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+        }
+
+        .padding {
+            padding: 50px;
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+        }
+
+        .parent {
+            width: 100%;
+            height: 100px;
+        }
+
+        .p1 {
+            width: 50%;
+            background-color: lightcoral;
+        }
+
+        .p2 {
+            width: 50vw;
+            background-color: lightgreen;
+        }
+
+        .smal_font {
+            transform: scale(0.8);
+            -webkit-transform: scale(0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <h2>padding 和 margin 有说明不同？</h2>
+    <!-- 作用对象不同 -->
+    <div class="margin">margin 作用于元素外边</div>
+    <div class="padding">padding 作用与元素自身</div>
+    <h2>vw 与 百分比的区别？</h2>
+    <!-- 百分比会继承父元素宽高，是相对父元素的width 如果是标准盒子模型 那么就是等于父元素 contentWidth -->
+    <div class="parent">
+        <p class="p1">百分比</p>
+        <p class="p2">vw</p>
+    </div>
+    <h2>如何使得谷歌浏览器支持小字体</h2>
+    <!-- 谷歌默认最小只到 12px -->
+    <div class="parent">
+        <div class="nomal_font">我是普通的字体</div>
+        <div class="smal_font">我是小号的字体</div>
+    </div>
+</body>
+
+</html>

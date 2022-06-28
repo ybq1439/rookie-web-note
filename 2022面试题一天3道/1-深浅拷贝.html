@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 深拷贝 
+    // 1-使用 json.paser(json.stringify()) 
+    let obj = {
+        a: 1,
+        b: 'jay',
+        c: function () {
+            console.log('我是易斌祺')
+        }
+    }
+    // 无法拷贝function
+    let obj2 = JSON.parse(JSON.stringify(obj))
+    console.log(JSON.stringify(obj.c)) //undefined
+    console.log(obj2)
+
+    // 2-手写深拷贝
+    function deepClone(source) {
+        const targetObj = source.constructor === Array ? [] : {}
+        for (const key in source) {
+            // 检查是否是 对象自生的属性
+            if (Object.hasOwnProperty.call(source, key)) {
+                const element = source[key]
+                // 基本数据类型或者 Null
+                if (typeof element != 'object' ||
+                    element === null) {
+                    targetObj[key] = element
+                } else {
+                    // 引用数据类型 判断数组和对象
+                    targetObj[key] = deepClone(element)
+                }
+            }
+        }
+        return targetObj
+    }
+
+
+
+
+    let testObj = {
+        name: 'jayZhou',
+        music: [
+            ['七里香', '一路向北', '漂移'],
+            ['蛇舞', '倒带', '花海']
+        ]
+    }
+
+    let testObj2 = deepClone(testObj)
+    testObj2.age = 42
+
+    // 3-使用 object.create 实现深拷贝 但是它是因为设置的原型为 testObj 
+    // 4-使用 objet.assign 这两个如果是多层的，就无法实现深拷贝了
+    let testObj3 = Object.create(testObj)
+    testObj3.level = '天花板'
+    console.log('testObj1', testObj)
+    console.log('testObj2', testObj2)
+    console.log('testObj3', testObj3.name)
+</script>
+
+</html>
