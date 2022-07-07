@@ -1,0 +1,37 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-07-07 17:33:59
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <p></p>
+    </div>
+</body>
+<script>
+    //1-实例化 xhr 
+    let xhr = new XMLHttpRequest()
+    // 2-绑定回调
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText)
+        }
+    }
+    // 3-使用 open 函数设置交互信息
+    xhr.open('get', './test.txt', true)
+    xhr.send(null)
+</script>
+
+</html>

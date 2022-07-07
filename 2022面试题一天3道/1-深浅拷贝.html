@@ -67,6 +67,32 @@
     console.log('testObj1', testObj)
     console.log('testObj2', testObj2)
     console.log('testObj3', testObj3.name)
+
+    // new Obejct 是浅拷贝
+    let newObj = new Object(testObj)
+    newObj.name = 'JJ'
+    console.log('=======', testObj)
+
+    const deepClone_ = (target) => {
+        let result = target.constructor === Array ? [] : {}
+        for (const key in target) {
+            if (Object.hasOwnProperty.call(target, key)) {
+                const element = target[key];
+                // 递归拷贝
+                if (typeof element !== "object" || typeof element === null) {
+                    result[key] = element
+                } else {
+                    result[key] = deepClone_(element)
+                }
+            }
+        }
+        return result
+    }
+
+    let newObj2 = deepClone_(testObj)
+    newObj2.name = 'ybq'
+    console.log('=====', testObj)
+    console.log('newObj2', newObj2)
 </script>
 
 </html>
