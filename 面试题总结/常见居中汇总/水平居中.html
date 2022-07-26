@@ -1,0 +1,80 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-07-09 16:55:18
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水平居中</title>
+    <style lang="">
+        .father {
+            background-color: lightpink;
+            height: 200px;
+        }
+
+        .son {
+            background-color: lightgreen;
+            height: 100px;
+            width: 500px;
+        }
+
+        #father1 {
+            text-align: center;
+
+        }
+
+        #son1 {
+            display: inline-block;
+        }
+
+        #father2 {
+            position: relative;
+        }
+
+        #son2 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #father3 {
+            display: flex;
+            justify-content: center;
+        }
+
+        #son4 {
+            margin: 0 auto;
+        }
+        #father5{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>1-绝对定位</h1>
+    <div class="father" id="father2">
+        <div class="son" id="son2"></div>
+    </div>
+    <h1>2-给子元素设置 display:inline-block，父元素设置 text-align:center</h1>
+    <div class="father" id="father1">
+        <div class="son" id="son1">我是一八七</div>
+    </div>
+    <h1>3-使用 flex 布局实现</h1>
+    <div class="father" id="father3">
+        <div class="son" id="son3"></div>
+    </div>
+    <h1>4-知道子元素宽度，可以使用 margin 自适应</h1>
+    <div class="father" id="father4">
+        <div class="son" id="son4"></div>
+    </div>
+</body>
+
+</html>

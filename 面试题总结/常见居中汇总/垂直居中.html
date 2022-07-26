@@ -1,0 +1,84 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-07-09 16:26:53
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>垂直居中</title>
+    <style>
+        .father {
+            background-color: lightcoral;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .son {
+            background-color: lightgreen;
+            width: 200px;
+            height: 100px;
+        }
+
+        #father1 {
+            position: relative;
+        }
+
+        #son1 {
+            position: absolute;
+            /* 首先相对父元素，移动父元素的高度的 50%
+            然后子元素移动相对自己的高度一个 50% */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #father2 {
+            display: table-cell;
+            vertical-align: middle;
+            margin-top: 100px;
+        }
+
+        #father3 {
+            display: flex;
+            align-items: center;
+        }
+
+        #father4 {
+            height: 200px;
+            line-height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>1-使用绝对定位 加 transform</h1>
+    <div class="father" id="father1">
+        <div class="son" id="son1"></div>
+    </div>
+    <h1>2-使用 tabel-cell 加 vertical-align</h1>
+    <p>tabel-cell使得元素像表格单元格形式呈现，像td。而vertical-align可以控制表格单元格对齐</p>
+    <div class="father" id="father2">
+        <div class="son" id="son2"></div>
+    </div>
+    <h1>3-块元素可以使用 flex</h1>
+    <div class="father" id="father3">
+        <div class="son" id="son3"></div>
+    </div>
+    <h1>4-行内元素可以设置行高设置为高度一样实现</h1>
+    <div class="father" id="father4">
+        <span class="son" id="son4">我是行内元素 span</span>
+    </div>
+</body>
+<script>
+
+</script>
+
+
+</html>

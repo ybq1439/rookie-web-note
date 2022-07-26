@@ -1,0 +1,97 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-07-09 17:08:15
+ * @LastEdiTime: 
+-->
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>垂直水平居中</title>
+    <style>
+        .father {
+            background-color: lightcoral;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .son {
+            background-color: lightgreen;
+            width: 200px;
+            height: 50px;
+        }
+
+        #father1 {
+            position: relative;
+        }
+
+        #son1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #father2 {
+            display: flex;
+
+        }
+
+        #son2 {
+            margin: auto;
+        }
+
+        #father3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #father4 {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #father5 {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            padding: 100px;
+        }
+
+        #son5 {
+            width: 1000px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>1-绝对定位加transform</h1>
+    <div class="father" id="father1">
+        <div class="son" id="son1"></div>
+    </div>
+    <h1>2-单个子元素的话，父元素使用 flex 子元素 margin 自适应</h1>
+    <div class="father" id="father2">
+        <div class="son" id="son2"></div>
+    </div>
+    <h1>3-父元素使用 flex </h1>
+    <div class="father" id="father3">
+        <div class="son" id="son3"></div>
+    </div>
+    <h1>4-grid 布局居中 </h1>
+    <div class="father" id="father4">
+        <div class="son" id="son4"></div>
+    </div>
+    <h1>5-父元素table-cell 加 vertical-align text-align</h1>
+    <div class="father" id="father5">
+        <div class="son" id="son5"></div>
+    </div>
+</body>
+
+</html>

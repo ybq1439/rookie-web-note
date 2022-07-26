@@ -21,6 +21,14 @@
         <span>我是span</span>
         <p>我是p标签</p>
     </div>
+    <div>
+        23122默认占满整行
+    </div>
+    <div id="flex_container">
+        <div class="flexBox">flexBox</div>
+        <div class="flexBox">flexBox</div>
+        <div class="flexBox">flexBox</div>
+    </div>
 </body>
 <style>
     #box1 {
@@ -32,7 +40,6 @@
 
     #box1 div {
         /* width: 100%; */
-
         width: auto;
         height: 100px;
         background-color: lightcoral;
@@ -44,6 +51,18 @@
         background-color: lightgreen;
         /* width: 100%; */
         margin-left: 100px;
+    }
+
+    #flex_container {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .flexBox {
+        background-color: lightblue;
+        /* height: 200px; */
+        flex: 1;
     }
 </style>
 

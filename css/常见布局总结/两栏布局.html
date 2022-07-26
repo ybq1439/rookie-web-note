@@ -1,0 +1,104 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-07-10 17:30:42
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>两栏布局</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .container {
+            height: 400px;
+            background-color: lightblue;
+        }
+
+        .left {
+            background-color: lightgreen;
+            width: 200px;
+            height: 300px;
+        }
+
+        .right {
+            background-color: lightpink;
+            height: 300px;
+        }
+
+        #left1 {
+            float: left;
+        }
+
+        #right1 {
+            /* 这两个都可以 */
+            /* margin-left: 200px; */
+            overflow: hidden;
+        }
+
+        #container2 {
+            display: flex;
+        }
+
+        #left2 {
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-basis: 200px;
+        }
+
+        #right2 {
+            flex-grow: 1;
+        }
+
+        #container3 {
+            position: relative;
+        }
+
+        #left3 {
+            position: absolute;
+        }
+
+        #right3 {
+            margin-left: 200px;
+        }
+
+        #container4 {
+            display: grid;
+            /* 设置每一列的宽度 */
+            grid-template-columns: 200px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>1-通过浮动实现</h3>
+    <div class="container">
+        <div class="left" id="left1"></div>
+        <div class="right" id="right1"></div>
+    </div>
+    <h3>2-通过 flex 布局实现</h3>
+    <div class="container" id="container2">
+        <div class="left" id="left2"></div>
+        <div class="right" id="right2"></div>
+    </div>
+    <h3>3-通过 绝对定位 实现</h3>
+    <div class="container" id="container3">
+        <div class="left" id="left3"></div>
+        <div class="right" id="right3"></div>
+    </div>
+    <h3>4-通过 grid 布局实现</h3>
+    <div class="container" id="container4">
+        <div class="left" id="left4"></div>
+        <div class="right" id="right4"></div>
+    </div>
+</body>
+
+</html>
