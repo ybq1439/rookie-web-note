@@ -1,0 +1,77 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-07-26 10:49:51
+ * @LastEdiTime: 
+-->
+/*
+* @Descripttion:
+* @version:
+* @Author: ybq
+* @Date: 2022-07-26 10:49:51
+* @LastEdiTime:
+*/
+// 1-结果为 1
+<script>
+    var foo = 1;
+
+    function bar() {
+        foo = 10; //函数作用域，局部变量
+        console.log(foo)
+        return;
+
+        function foo() {}
+    }
+    // bar();
+    // console.log(foo);
+    // --------------------------------------------------------------------
+    var x = 4,
+        obj = {
+            x: 3,
+            bar: function () {
+                var x = 2;
+                setTimeout(function () {
+                    var x = 1;
+                    console.log(this.x);
+                }, 1000);
+            }
+        };
+    // obj.bar();
+    // --------------------------------------------------------------------
+    x2 = {
+        a: 1
+    };
+
+    function bar2() {
+        this.x2 = 2;
+        // console.log(this)
+        // console.log(x2)
+        // return x2;
+    }
+    var foo = new bar2();
+    // console.log(foo.x2);
+    // --------------------------------------------------------------------
+
+    var fun = function bar3() {}
+    // console.log(bar3) //undefined
+    // --------------------------------------------------------------------
+
+    let arr1 = []
+    arr1[0] = 0
+    arr1[1] = 1
+    arr1.name = 'ybq'
+    // console.log(arr1)
+    // --------------------------------------------------------------------
+
+    function fun2(a) {
+        arguments[0] = 2;
+        console.log(a);
+    }
+    // fun2(1); //2
+
+    // --------------------------------------------------------------------
+    function fun3() {}
+    delete fun3.length;
+    console.log(fun3.length);
+</script>
