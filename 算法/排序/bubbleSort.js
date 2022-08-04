@@ -32,6 +32,26 @@ const BubbleSort = (arr) => {
     }
     return arr
 }
+const bubbleSort_ = (arr) => {
+    const totalLength = arr.length
+    for (let i = 0; i < totalLength - 1; i++) {
+        let flag = true
+        for (let j = 0; j < totalLength - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+                flag = false;
+            }
+        }
+        if (flag) {
+            break
+        }
+    }
+    return arr
+}
 const testArray = [5, 9, 2, 4, 6, 2]
 const result = BubbleSort(testArray)
 console.log(result)
+
+const testArray_ = [9, 8, 76, 5, 4, 3]
+const result_ = bubbleSort_(testArray_)
+console.log(result_)
