@@ -36,6 +36,6 @@ const quickSort = (arr, start, end) => {
     quickSort(arr, baseIndex + 1, end)
 }
 
-const arrTest = [5, 3, 8, 1, 2]
+const arrTest = [5,4,3,2,1]
 quickSort(arrTest, 0, arrTest.length - 1)
 console.log(arrTest)

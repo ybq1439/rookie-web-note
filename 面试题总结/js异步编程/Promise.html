@@ -21,6 +21,7 @@
 <script>
     // 看结果？输出 2 3
     // 如何使得 Promise 只执行两个 catch？在第一个 catch 中抛出错误
+    // 连着写 catch 只会执行第一个 catch 
     const promise = new Promise((resolve, reject) => {
         setTimeout(() => {
             reject()
