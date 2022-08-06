@@ -1,0 +1,26 @@
+function TreeNode(val = 0) {
+    this.val = val
+    this.left = null
+    this.right = null
+}
+
+function reConstructBinaryTree(pre, vin) {
+    // write code here
+    if (pre.length === 0 || vin.length === 0) {
+        return null
+    }
+    let rootValue = pre[0]
+    let rootNode = new TreeNode(rootValue)
+    let leftIndex = vin.indexOf(rootValue)
+    // 找到所有的 左子树
+    rootNode.left = reConstructBinaryTree(
+        // 这里先序遍历 需要去掉第一个元素，也就是上层根元素
+        pre.slice(1, leftIndex + 1),
+        vin.slice(0, leftIndex)
+    )
+    rootNode.right = reConstructBinaryTree(
+        pre.slice(leftIndex + 1),
+        vin.slice(leftIndex + 1)
+    )
+    return rootNode
+}
