@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-08-01 22:35:58
+ * @LastEdiTime: 
+ */
 /* 
 思路：首先判断 总油量和总需要消耗油量 差值。如果大于等于0，那么一定存在一条路径。
 两个关键点：
@@ -31,7 +38,6 @@ var canCompleteCircuit = function (gas, cost) {
             startIndex = i + 1
             nowGas = 0
         }
-
     }
     return startIndex
 };

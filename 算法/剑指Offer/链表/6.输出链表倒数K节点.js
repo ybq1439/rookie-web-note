@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-08-01 22:35:58
+ * @LastEdiTime: 
+ */
 function ListNode(x) {
     this.val = x;
     this.next = null;
@@ -10,15 +17,5 @@ function FindKthToTail(pHead, k) {
     }
     let left = pHead
     let right = pHead
-    for (let i = 0; i < k; i++) {
-        if (!right) {
-            return null
-        }
-        right = right.next;
-    }
-    while (right) {
-        right = right.next;
-        left = left.next;
-    }
-    return left
+
 }

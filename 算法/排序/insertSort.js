@@ -6,7 +6,8 @@ const insertSort = (arr) => {
     if (!Array.isArray(arr) || arr.length <= 1) {
         return
     }
-    for (let i = 0; i < totalLength; i++) {
+    // 从 1 开始，0 默认排好序了
+    for (let i = 1; i < totalLength; i++) {
         // 保存当前位置元素
         let temp = arr[i]
         let j = i
@@ -20,6 +21,28 @@ const insertSort = (arr) => {
     return arr
 }
 
+const insertSort_ = (arr) => {
+    const totalLength = arr.length
+    if (!Array.isArray(arr)) {
+        throw new Error('type error')
+    }
+    if (arr.length === 1) {
+        return arr
+    }
+    for (let i = 1; i < totalLength; i++) {
+        let temp = arr[i]
+        let j = i
+        while (j - 1 >= 0 && arr[j - 1] > temp) {
+            arr[j] = arr[j - 1]
+            j--
+        }
+        arr[j] = temp
+    }
+    return arr
+}
 const testArray = [5, 9, 2, 4, 6, 2]
 const result = insertSort(testArray)
 console.log(result)
+const restArray_ = [9, 5, 2, 1]
+const result_ = insertSort_(restArray_)
+console.log(result_)
