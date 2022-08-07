@@ -40,6 +40,24 @@ var subsetsWithDup = function (nums) {
     back(0, [])
     return result
 };
+const subsetsWithDup_ = (nums) => {
+    const result = []
+    nums.sort((a, b) => {
+        return a - b
+    })
+    const back = (start, curr) => {
+        result.push([...curr])
 
+        for (let i = start; i < nums.length; i++) {
+            if (i > start && nums[i] === nums[i - 1]) {
+                continue
+            }
+            curr.push(nums[i])
+            back(i + 1, curr)
+            curr.pop()
+        }
+    }
+    return result
+}
 const result = subsetsWithDup([1, 2, 2])
 console.log(result)

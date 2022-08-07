@@ -15,10 +15,10 @@ var letterCombinations = function (digits) {
     const digitsLength = digits.length
     // 数字与字母对应数组，其中 1 和 0 都是对应为 空。
     const map = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz']
-    if (!length) {
+    if (!digitsLength) {
         return []
     }
-    if (length === 1) {
+    if (digitsLength === 1) {
         return map[digits].split('')
     }
     const back = (index, cur) => {
@@ -37,25 +37,26 @@ var letterCombinations = function (digits) {
     return result
 };
 
-const test = (digits) => {
-    const digitsLength = digits.length
+const letterCombinations = (digits) => {
+    const result = []
+    const totalLength = digits.length
     const map = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz']
-    if (digitsLength === 1) {
-        return map[digits].split('')
-    }
-    if (digitsLength === 0) {
+
+    if (totalLength === 0) {
         return []
     }
-    const result = []
-    const back = (index, cur) => {
-        if (cur.length === digitsLength) {
-            result.push(cur.join(''))
+    if (totalLength === 1) {
+        return map[digits].split('')
+    }
+    const back = (index, curr) => {
+        if (curr.length === totalLength) {
+            result.push(curr.join(''))
             return
         }
         for (const item of map[digits[index]]) {
-            cur.push(item)
-            back(index + 1, cur)
-            cur.pop()
+            curr.push(item)
+            back(index + 1, curr)
+            curr.pop()
         }
     }
     back(0, [])

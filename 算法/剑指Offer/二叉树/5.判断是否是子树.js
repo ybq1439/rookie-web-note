@@ -1,13 +1,22 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-08-07 15:55:51
+ * @LastEdiTime: 
+ */
 function TreeNode(x) {
     this.val = x;
     this.left = null;
     this.right = null;
 }
+
 function HasSubtree(pRoot1, pRoot2) {
     // write code here
     if (!pRoot1 || !pRoot2) {
         return false
     }
+    // 这个函数是去判断 两棵树是否相等
     const checkIfSame = (node1, node2) => {
         // 如果右子树遍历完成，则说明两颗子树完全一样
         if (!node2) {

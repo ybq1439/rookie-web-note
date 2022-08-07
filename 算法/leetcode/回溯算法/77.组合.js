@@ -30,3 +30,20 @@ var combine = function (n, k) {
     back(1, [])
     return result
 };
+
+const combine_ = (n, k) => {
+    const result = []
+    const back = (start, curr) => {
+        if (curr.length === k) {
+            result.push([...curr])
+            return
+        }
+        for (let i = start; i <= n; i++) {
+            curr.push(i)
+            back(i + 1, curr)
+            curr.pop()
+        }
+    }
+    back(1, [])
+    return result
+}
