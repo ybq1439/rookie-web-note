@@ -25,3 +25,22 @@ var combinationSum3 = function (k, n) {
     back(1, [])
     return result
 };
+
+const combinationSum_ = (k, n) => {
+    const result = []
+    const add = (a, b) => {
+        return a + b
+    }
+    const back = (start, curr) => {
+        if (curr.length === k && curr.reduce(add) === n && cur.length > 0) {
+            result.push([...curr])
+        }
+        for (let i = start; i <= 9; i++) {
+            curr.push(i)
+            back(i + 1, curr)
+            curr.pop()
+        }
+    }
+    back(1, [])
+    return result
+}

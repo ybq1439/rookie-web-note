@@ -21,3 +21,18 @@ var subsets = function (nums) {
     backTrack(0, [])
     return result
 };
+
+const subsets_ = (nums) => {
+    const result = []
+
+    function backTrack(start, curr) {
+        result.push([...curr])
+        for (let i = start; i < nums.length; i++) {
+            curr.push(nums[i])
+            backTrack(i + 1, curr)
+            curr.pop()
+        }
+    }
+    backTrack(0, [])
+    return result
+}
