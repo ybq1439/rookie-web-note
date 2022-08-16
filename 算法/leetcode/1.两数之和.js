@@ -20,6 +20,7 @@ var twoSum = function (nums, target) {
             // get 获取键对应的值
             return [i, map.get(complement)]
         } else {
+            // 使用 map 记录下所有已经遍历的元素
             map.set(nums[i], i)
         }
     }
@@ -31,7 +32,7 @@ const twoSum = function (nums, target) {
         const complement = target - nums[i]
         if (map.has(complement)) {
             return [i, map.get(complement)]
-        } else [
+        } else[
             map.set(nums[i], i)
         ]
     }

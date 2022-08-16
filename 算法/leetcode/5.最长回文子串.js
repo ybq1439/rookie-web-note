@@ -13,7 +13,7 @@ var longestPalindrome = function (s) {
         return s
     }
     let start = 0 //最长回文子串的最左边下标
-    let maxLength = 1 //最长回文子串的长度
+    let maxLength = 1 //最长回文子串的长度 注意：这里需要是 1 因为如果 s === ’ab‘，需要返回 a
     // 辅助函数 两件事情
     // 1-检查左右两边是否越界
     // 2-检查左右两边的字符是否相等
@@ -31,6 +31,7 @@ var longestPalindrome = function (s) {
     // 这里一定需要两边的，不能够先判断 s 奇偶
     // 例如 abab 偶数，如果只遍历一边，会出问题
     // 如果需要先判断奇偶,这个奇偶应该是 最长的回文串 的奇偶
+    // 注意：这里需要从 0 开始，是不会越界的，同时分了两种情况，不会有漏掉的
     for (let i = 0; i < s.length; i++) {
         // 长度为奇数的情况
         helper(i - 1, i + 1)
