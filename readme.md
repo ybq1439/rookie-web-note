@@ -128,6 +128,28 @@
 
 ​	如果我们想要一个原本不能够被继承的元素变为继承，可以设置它的值为 inherit；
 
+### 3-伪类 LVHA 的理解？
+
+​	L：link（没有被访问的状态）；
+
+​	V：visited（已经访问的状态）；
+
+​	H： hover（鼠标滑过的状态）；
+
+​	A：active（以选中的状态）；
+
+​	其中 hover 要有效果，必须要放到 link, visited 的后面；active 必须放到 hover 后面。
+
+​	link 和 visited 可以交换位置。
+
+### 4-使用纯 CSS 实现三角形原理？
+
+​	相邻边框之间会均分的原理。
+
+​	把盒子宽高设置为 0，然后其他 边框全部设置为透明，留下需要的边框。
+
+​	![image-20220817103547266](/Users/yibinqi/Library/Application Support/typora-user-images/image-20220817103547266.png)
+
 ## JavaScript 相关
 
 ### 1-解析字符串中的数字和字符串强制类型转化的区别？
