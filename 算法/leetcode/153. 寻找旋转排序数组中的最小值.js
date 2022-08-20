@@ -9,6 +9,7 @@
 // 这个题 如果是翻转了的话，前面的一段都所有元素比后一段的元素大，
 // 只需要找到第一个比前一个小的元素，就是最小元素
 // 二分查找
+// 注意了：这个题目是不存在重复元素的，于存在重复元素的解法不同
 var findMin = function (nums) {
     if (nums.length === 1) {
         return nums[0]
@@ -21,7 +22,6 @@ var findMin = function (nums) {
     }
     while (left < right) {
         let mid = Math.floor(left + (right - left) / 2)
-
         if (nums[mid] > nums[mid + 1]) {
             return nums[mid + 1]
         }
