@@ -211,3 +211,7 @@ console.log(result)//[ 1, NaN, NaN ]
 //parseInt('3',2) 同上
 ```
 
+### 6-运算符优先级（部分）
+
+![image-20220821201140668](/Users/yibinqi/Library/Application Support/typora-user-images/image-20220821201140668.png)
+

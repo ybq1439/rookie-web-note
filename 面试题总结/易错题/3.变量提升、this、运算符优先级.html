@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // JS 中运算符优先级
+    // 带有参数的 new == . > 函数调用
+    function Foo() {
+        //函数作用域中没有 getName 所以会找到 window 中的 getName
+        getName = function () { console.log(1); };
+        return this;
+    }
+    Foo.getName = function () { console.log(2); };
+    Foo.prototype.getName = function () { console.log(3); };
+    var getName = function () { console.log(4); };
+    function getName() { console.log(5); }
+
+    //答案：
+    Foo.getName();//2
+    getName();//4
+    Foo().getName();//1
+    getName();//1
+    new Foo.getName();//2 === new (Foo.getName)()
+    new Foo().getName();//3 === new (Foo()).getName()
+    // 为什么上面是3？1-在使用 new 构造对象的时候，如果有返回值并且为引用数据类型，就直接 return 这个返回值。
+    //              2-new 中 this 都是指向构建的对象的；
+    //结合以上两点，就会执行 Foo 原型对象上的方法 getName
+    new new Foo().getName();//3 === new (new Foo().getName)()
+</script>
+
+</html>

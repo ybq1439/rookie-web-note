@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function myNew(fn, ...args) {
+        // 首先依据 prototype 构建新对象，继承方法
+        let newObj = Object.create(fn.prototype);
+        // 借用构造函数继承属性
+        let result = fn.apply(newObj, args);
+        return typeof result === "object" && result !== null ? result : newObj
+    }
+    function Person(name) {
+        this.name = name;
+        function sayName2() {//这是私有方法，构造对象是无法获取到的
+            console.log('我是 person 私有方法')
+        }
+    }
+    Person.prototype.sayName = function () {
+        console.log(this.name)
+    }
+    const jayZhou = myNew(Person, 'jayZhou')
+    jayZhou.sayName()
+</script>
+
+</html>
