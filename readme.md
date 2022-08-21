@@ -42,15 +42,15 @@
 
 ​	1-画布 canvas；
 
-​	2-媒体播放：video,audio；
+​	2-拖拽 API；
 
-​	3-本地存储：localStorage sessionStorage；
+​	3-媒体播放：video,audio；
 
 ​	4-语义化标签：article, footer,header,nav,section；
 
-​	5-拖拽 API；
+​	5-Input 新增类型，例如：date、email、number；
 
-​	6-Input 新增类型，例如：date、email、number；
+​	6-本地存储：localStorage sessionStorage；
 
 ​	7-新的技术：webWorker 支持后台运行 JS；
 
@@ -84,7 +84,7 @@
 
 ​		localStorage：所有同源窗口共享；
 
-​		sessionStorage：只在同源并且同窗口同共享；		
+​		sessionStorage：只在同源并且同窗口共享；		
 
 ## CSS 相关内容
 
@@ -104,9 +104,9 @@
 <![endif]-->
 ```
 
-​		（2）属性 hack：通过在 CSS 属性前加上不同的前缀实现；
+​		（3）选择器 hack：选择器前加上不同前缀实现；		
 
-​		（3）选择器 hack：选择器前加上不同前缀实现；
+​		（3）属性 hack：通过在 CSS 属性前加上不同的前缀实现；
 
 ### 2-CSS 属性继承性？
 
@@ -174,7 +174,9 @@ Number.isNaN：首先判断传入参数的类型，只有传入的参数为 NaN 
 
 ​	1-Symbol：只允许显示强制类型转化，使用隐式类型转化报错；
 
-​	2-Object：除非自行定义 toString() 方法，否则调用 Object.prototype.toString() 返回内部属性 [[Class]]。例如："[object,Object]"； 
+​	2-Object：除非自行定义 toString() 方法，否则调用 Object.prototype.toString() 返回内部属性 [[Class]]。
+
+例如："[object,Object]"； 
 
 ### 4-其他值转 Number 类型？
 
@@ -188,5 +190,24 @@ Number.isNaN：首先判断传入参数的类型，只有传入的参数为 NaN 
 {} 的 valueOf 结果为 {} ，toString 的结果为 "[object Object]"；
 
 [] 的 valueOf 结果为 [] ，toString 的结果为 ""；
+```
+
+####  ["1", "2", "3"].map(parseInt) 答案是多少？
+
+​	注意：1-paser.Int(str,radix) 解析字符串，返回指定基数的 **十进制整数**。也就是说，把 str 看作是 radix 进制的整数，然后转化为十进制数。radix 假如指定 0 或未指定，基数将会根据字符串的值进行推算。
+
+​				2-map 传入的参数为 (item,index,array) 默认传递前两个参数；
+
+```javascript
+const result = ["1", "2", "3"].map(parseInt)
+console.log(result)//[ 1, NaN, NaN ]
+
+//等同于以下代码
+["1", '2', '3'].map((item, index) => {
+    return parseInt(item, index)
+})
+//三个结果分别是 parseInt('1',0) radix 指定为 0，依据字符串推算，就是十进制数转化为十进制数
+//parseInt('2',1) 这里把 '2' 按照 1 进制转化为 10 进制，很明显，1 进制里面没有 2，所以会返回 NaN
+//parseInt('3',2) 同上
 ```
 

@@ -31,5 +31,4 @@ class EventEmitter {
         one.initialCallBack = callBack
         this.on(eventName, one)
     }
-
 }
