@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    Function.prototype.myCall = function (target, ...args) {
+        let that = this;
+        if (typeof that !== "function") {
+            throw new Error('type error')
+        }
+        target = target || window;
+        target.fn = that;
+        const result = target.fn(...args);
+        delete target.fn
+        return result
+    }
+
+    Function.prototype.myApply = function (target, args) {
+        let that = this;
+        if (typeof that !== "function") {
+            throw new Error('type error')
+        }
+        target = target || window;
+        target.fn = that;
+        const result = target.fn(...args);
+        delete target.fn
+        return result
+    }
+
+    Function.prototype.mybind = function (target, ...args) {
+        let that = this;
+        if (typeof that !== "function") {
+            throw new Error('type error')
+        }
+        return function Fn() {
+            return that.apply(this instanceof Fn ? this : target, [...args, ...arguments])
+        }
+    }
+</script>
+
+</html>
