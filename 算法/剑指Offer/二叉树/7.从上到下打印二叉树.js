@@ -24,5 +24,6 @@ function PrintFromTopToBottom(root) {
     for (const item in res) {
         result.push(...res[item]);
     }
+
     return result
 }

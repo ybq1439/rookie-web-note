@@ -168,6 +168,12 @@
 
 ​	![image-20220817103547266](/Users/yibinqi/Library/Application Support/typora-user-images/image-20220817103547266.png)
 
+### 5-@import 和 link 标签引入样式表区别？
+
+​	1-@import 是 CSS 中的语法规则，link 可以引入其他资源；link 兼容性更好；
+
+​	2-@import 引入的样式需要页面解析完成后才会加载；
+
 ## JavaScript 相关
 
 ### 1-解析字符串中的数字和字符串强制类型转化的区别？
