@@ -30,7 +30,12 @@
         var v2 = 2
         fn1()
     }
-    fn2()
+
+    function foo1() {
+        this.age = 'ybq'
+    }
+    let foo2 = new foo1()
+    console.log(foo2.age)
 </script>
 
 </html>

@@ -40,5 +40,3 @@ var longestPalindrome = function (s) {
     return s.substring(start, maxLength + start)
 };
 
-const result = longestPalindrome("cbbd")
-console.log(result)

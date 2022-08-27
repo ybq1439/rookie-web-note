@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-08-07 15:55:51
+ * @LastEdiTime: 
+ */
 function TreeNode(val = 0) {
     this.val = val
     this.left = null
@@ -7,6 +14,7 @@ function TreeNode(val = 0) {
 function reConstructBinaryTree(pre, vin) {
     // write code here
     if (pre.length === 0 || vin.length === 0) {
+        // 这里一定需要返回值，因为没有子树也要返回 null
         return null
     }
     let rootValue = pre[0]
