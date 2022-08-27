@@ -3,27 +3,20 @@ function TreeNode(x) {
     this.left = null;
     this.right = null;
 }
-
-function PrintFromTopToBottom(root) {
+function Print(pRoot) {
     // write code here
-    const res = {}
-    let level = 0
+    const result = []
     const search = (node, level) => {
         if (!node) {
             return
         }
-        if (!res[level]) {
-            res[level] = []
+        if (!result[level]) {
+            result[level] = []
         }
-        res[level].push(node.val)
+        result[level].push(node.val)
         search(node.left, level + 1)
         search(node.right, level + 1)
     }
-    search(root, level)
-    const result = []
-    for (const item in res) {
-        result.push(...res[item]);
-    }
-
+    search(pRoot, 0)
     return result
 }

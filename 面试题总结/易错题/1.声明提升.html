@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //注意：var 只是会声明提前，并不会赋予值
+    // getName 函数定义
+    // getName 变量定量定义，本来是等于 undefined 但是上面已经定义为函数了
+    getName()// i am function 
+    var getName = function () {
+        console.log('i am var')
+    }
+    getName()// i am var
+    function getName() {
+        console.log('i am function')
+    }
+    getName()// i am var
+</script>
+
+</html>

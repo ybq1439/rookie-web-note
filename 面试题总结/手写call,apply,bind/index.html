@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    Function.prototype.myCall = function (target, ...args) {
+        let that = this;
+        if (typeof that !== "function") {
+            throw new Error('type error')
+        }
+        target = target || window;
+        target.fn = that;
+        const result = target.fn(...args);
+        delete target.fn
+        return result
+    }
+
+    Function.prototype.myApply = function (target, args) {
+        let that = this;
+        if (typeof that !== "function") {
+            throw new Error('type error')
+        }
+        target = target || window;
+        target.fn = that;
+        const result = target.fn(...args);
+        delete target.fn
+        return result
+    }
+
+    Function.prototype.mybind = function (target, ...args) {
+        let that = this;
+        if (typeof that !== "function") {
+            throw new Error('type error')
+        }
+        return function Fn() {
+            return that.apply(this instanceof Fn ? this : target, [...args, ...arguments])
+        }
+    }
+
+    // bind 函数为什么最后需要 依据 this 实例 使用不同的 对象去构造?
+    let obj = {
+        name: 'tom',
+        age: '18'
+    }
+    function getSex(sex) {
+        this.sex = sex
+    }
+    let objBind = getSex.bind(obj)
+    objBind()
+    // 如果是使用 bind 函数去构建对象，那么需要 this 指向 newObj，也就是 new 的时候，会继承 getSex 原型对象的 新对象,
+    // 也就是最后会返回的对象
+    let newObj = new objBind('女')
+    console.log(newObj)
+    // console.log(obj)
+
+</script>
+
+</html>

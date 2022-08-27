@@ -19,7 +19,7 @@ function reConstructBinaryTree(pre, vin) {
     }
     let rootValue = pre[0]
     let rootNode = new TreeNode(rootValue)
-    let leftIndex = vin.indexOf(rootValue)
+    let leftIndex = vin.indexOf(rootValue)//这里更多的是强调左子树的长度
     // 找到所有的 左子树
     rootNode.left = reConstructBinaryTree(
         // 这里先序遍历 需要去掉第一个元素，也就是上层根元素

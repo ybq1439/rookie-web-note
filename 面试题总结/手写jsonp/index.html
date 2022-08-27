@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写JSONP</title>
+</head>
+
+<body>
+</body>
+<script>
+    //params ===》 object
+    function jsonp(url, params, callBack) {
+        // 1-首先判断 url 中是否携带了参数
+        let urlQuery = url.indexOf('?') === -1 ? '?' : '&';
+        // 2-获取携带参数
+        let queryString = urlQuery;
+        for (const param in params) {
+            if (params.hasOwnProperty(param)) {
+                queryString += `${param}=${params[param]}&`
+            }
+        }
+        // 3-获取随机函数名F
+        let random = Math.random().toString().replace('.', '');
+        let callBackName = `callBack_${random()}`
+        // 4-queryString 上添加 callBackName
+        queryString += `callBackName=${callBackName}`
+        // 5-新建 script 标签
+        let scriptNode = document.createElement('script');
+        scriptNode.src = url + queryString;
+        // 6-绑定回调函数
+        window[callBackName] = function () {
+            callBack([...arguments])
+            // 7-删除 scriptNode 
+            document.getElementsByTagName('head')[0].remove(scriptNode)
+        }
+        // 8-把新建 script 标签绑定到 DOM 上
+        document.getElementsByTagName('head')[0].appendChild(scriptNode)
+    }
+</script>
+
+</html>

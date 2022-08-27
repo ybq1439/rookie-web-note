@@ -17,6 +17,13 @@
     <h1>fighting</h1>
     <script src="http://localhost:3000/script?time=7000"></script>
     <h1>fighting</h1>
+    <!-- 异步执行代码不会阻塞页面 -->
+    <script>
+        setTimeout(() => {
+            console.log('i am over')
+        }, 5000)
+    </script>
+    <h1 class="yyyy">使用异步代码会不会阻塞页面加载</h1>
 </body>
 
 </html>
