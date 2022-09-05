@@ -33,6 +33,22 @@
 </body>
 
 <script>
+    function fn1() {
+        console.log(v1)
+        console.log(v2)
+    }
+
+    function fn2() {
+        var v1 = 1
+        var v2 = 2
+        fn1()
+    }
+
+    function foo1() {
+        this.age = 'ybq'
+    }
+    let foo2 = new foo1()
+    console.log(foo2.age)
 </script>
 
 </html>

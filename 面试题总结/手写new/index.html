@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-08-15 23:21:19
+ * @LastEdiTime: 
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,24 +19,32 @@
 
 </body>
 <script>
-    function myNew(fn, ...args) {
-        // 首先依据 prototype 构建新对象，继承方法
-        let newObj = Object.create(fn.prototype);
-        // 借用构造函数继承属性
-        let result = fn.apply(newObj, args);
-        return typeof result === "object" && result !== null ? result : newObj
+    function myNew(father, ...rest) {
+        // 第一步 依据 father 原型新建对象
+        const newObj = Object.create(father.prototype)
+        // 第二步 调用 father 构造函数，继承属性
+        const result = father.apply(newObj, rest)
+        // 第三步 返回结果
+        return (typeof result === 'object' && result !== null) ? result : newObj
     }
-    function Person(name) {
-        this.name = name;
-        function sayName2() {//这是私有方法，构造对象是无法获取到的
-            console.log('我是 person 私有方法')
-        }
+
+    function Father(name = '') {
+        this.name = name
     }
-    Person.prototype.sayName = function () {
+    Father()
+    Father.prototype.sayName = function () {
         console.log(this.name)
     }
-    const jayZhou = myNew(Person, 'jayZhou')
-    jayZhou.sayName()
+    let Son = myNew(Father, 'son1')
+    Son.sayName()
+
+    let a = {
+        name: 'jayZhou',
+        fun: function () {
+            console.log(this)
+        }
+    }
+    a.fun()
 </script>
 
 </html>
