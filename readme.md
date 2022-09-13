@@ -382,3 +382,19 @@ console.log(colors.toPipedString())
 
 ​	例如：如果依赖写的是 ~0.13.0 那么实际 npm install 的时候，如果有补丁版本的话，会安装成 0.13.2，这样的话，大家 npm install 的依赖版本就无法保证一样了。
 
+## NPM 包管理
+
+### 1-npm install xxxx --legacy-peer-deps 作用？
+
+#### *peerDependencies* 的作用？
+
+​	避免多个插件依赖的同一个包，重复安装。https://juejin.cn/post/6971268824288985118
+
+#### --legacy-peer-deps 的作用？
+
+​	标志是在v7中引入的，目的是绕过peerDependency自动安装；它告诉 NPM 忽略项目中引入的各个modules之间的相同modules但不同版本的问题并继续安装，保证各个引入的依赖之间对自身所使用的不同版本modules共存。**就是允许下载同一个包的多个版本**。
+
+### 2-npm install xxxx --force 的作用？
+
+重新下载安装所有的依赖包。	
+
