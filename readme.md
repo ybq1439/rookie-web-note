@@ -231,13 +231,140 @@ console.log(result)//[ 1, NaN, NaN ]
     return parseInt(item, index)
 })
 //三个结果分别是 parseInt('1',0) radix 指定为 0，依据字符串推算，就是十进制数转化为十进制数
-//parseInt('2',1) 这里把 '2' 按照 1 进制转化为 10 进制，很明显，1 进制里面没有 2，所以会返回 NaN
+//parseInt('2',1) 这里把 1进制的 '2' 转化为 10 进制，很明显，1 进制里面没有 2，所以会返回 NaN
 //parseInt('3',2) 同上
 ```
 
 ### 6-运算符优先级（部分）
 
 ![image-20220821201140668](/Users/yibinqi/Library/Application Support/typora-user-images/image-20220821201140668.png)
+
+[前端程序员经常忽视的一个JavaScript面试题 · Issue #85 · Wscats/articles (github.com)](https://github.com/Wscats/articles/issues/85)
+
+### 7-什么是假值对象？
+
+​	浏览器在特定情况下，在常规的 JS 语法基础上 **自己创建一些外来值**，这些值就是 **假值对象**，假值对象强制转化为 布尔类型是 结果是 **false**；例如：**document.all** 它就是一个类数组对象，包括了页面上的所有元素，是 **dom** （而不是 **js 引擎**）提供给 js 程序使用。　
+
+### 8-js 创建对象的方式？
+
+​	引言：我们一般使用 **字面量** 的方式创建一个对象，但是如果 需要创建大量的相似的对象，这种方法就会很多重复代码。JS 不像其他面向对象语言，我们创建类是通过函数来模拟实现的， ES6 才引入了类的概念，其实也是使用的 函数来模拟的对象。
+
+#### 	1-工厂模式：
+
+​		直接把对象封装在一个函数里面，然后函数返回这个对象，缺点：**它只是简单的封装了复用代码，而没有建立起对象和类型间的关系。**
+
+```javascript
+function createPeople(name,age) {
+    //创建字面量的方式
+    var people={
+        name:name,
+        age:age,
+        say:function () {
+            console.log('我叫'+this.name+', 今年'+this.age+'岁。');
+        }
+    };
+    return people;
+}
+
+var shaHeShang=createPeople('沙和尚',15);
+console.log(shaHeShang);
+shaHeShang.say();
+
+var xiaoBaiLong=createPeople('小白龙',13);
+console.log(xiaoBaiLong);
+xiaoBaiLong.say();
+```
+
+#### 	2-构造函数模式：
+
+​		优点：创建的对象和构造函数、原型对象之间存在关系；
+
+​		缺点：如果需要构造的对象一个属性是函数，那么这个函数就会被重复创建 N 次，浪费空间；
+
+#### 	3-原型模式：
+
+​		将公用属性、方法放到原型对象上去，
+
+​		优点：解决 构造函数 如果属性是函数时候，创建 N 次函数浪费空间；
+
+​		缺点：如果公用属性是引用数据类型，那么所有的 **实例共享** 这个属性；不能够通过给参数来给初始值；
+
+```javascript
+    function Person() {}
+    Person.prototype = {
+      name: "jayZhou",
+      age: "48",
+      loves: ["奶茶", "昆凌", "唱歌"],
+    };
+    let jj = new Person();
+    let jay = new Person();
+    console.log(jj.name, jay.name);
+```
+
+#### 	4-组合使用 构造模式和原型模式：
+
+​		缺点：两种模式一起用，代码封装性没那么好；
+
+#### 	5-动态原型模式：
+
+​		通过判断原型上是否存在属性、方法，做到只在第一次构造函数的时候，在原型上添加属性；
+
+​		优点：完善上一种 封装性；
+
+```javascript
+function Person(name,age,job){
+    //属性
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.friends = ["杜甫","陶渊明"];
+
+    //方法
+    if(typeof this.sayName != 'function'){
+        Person.prototype.sayName = function(){
+            console.log(this.name);
+        }
+    }
+}
+
+//实例化对象
+var person1 = new Person("李清照",40,"南宋词人");
+var person2 = new Person("李白",50,"初唐诗人");
+
+person1.friends.push("杜牧");
+
+console.log(person1.friends);//"杜甫","陶渊明","杜牧"
+console.log(person2.friends);//"杜甫","陶渊明"
+
+console.log(person1.friends === person2.friends);//false
+console.log(person1.sayName === person2.sayName);//true
+```
+
+#### 	6-寄生构造函数模式：
+
+​		类似于工厂模式，只是调用了 new 
+
+​		使用场景：主要是对已有类型进行 **拓展**。例如为 Array 添加新的方法。
+
+```javascript
+function SpecialArray() {
+	// 创建数组
+	var values = new Array()
+	// 添加值
+	values.push.apply(values, arguments)
+	// 添加方法
+	values.toPipedString = function(){
+		return this.join('|')
+	}
+	// 返回数组
+	return values
+}
+
+var colors = new SpecialArray('red', 'green', 'blue')
+console.log(colors.toPipedString())
+```
+
+
 
 ## 其他
 
