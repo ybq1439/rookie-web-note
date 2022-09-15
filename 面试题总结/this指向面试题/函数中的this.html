@@ -1,0 +1,30 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-09-16 00:01:28
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var name = "window";
+    function Person(name) {
+      this.name = name;
+      this.foo1 = () => console.log(this.name);
+      this.foo2 = function () {
+        console.log(this.name);
+      };
+    }
+    let person1 = new Person("person1");
+    person1.foo1(); //这里这样去理解 Person.call(person1).foo1()
+    person1.foo2(); //person1
+  </script>
+</html>

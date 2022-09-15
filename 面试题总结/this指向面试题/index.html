@@ -1,0 +1,49 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-09-14 23:16:02
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // 1--------- 如果使用 let 定义变量，则变量不会挂在 window 上，this.age === undefined
+    // let age = 20;
+    var age = 20;
+    let person = {
+      age: 18,
+      sayAge: () => {
+        console.log(this.age); //
+      },
+    };
+    person.sayAge();
+    console.log(window.age);
+    ///2---------
+    var name = "ybq";
+    function fn() {
+      let name = "jay";
+      const sayAge = () => {
+        console.log(this); //window
+        console.log(name); //jay
+      };
+      sayAge();
+    }
+    fn();
+    // 3---------- 使用 call 去调用 箭头函数
+    let person2 = {
+      age: 19,
+    };
+    person.sayAge.call(person2); //20 箭头函数中的 this 指向定义是父级作用域的 this，也就是window
+
+    // 4----------
+    
+  </script>
+</html>
