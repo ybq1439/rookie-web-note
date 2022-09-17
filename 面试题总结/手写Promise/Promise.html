@@ -7,172 +7,178 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
-
-</body>
-<script>
+  <body></body>
+  <script>
     // 看结果？输出 2 3
     // 如何使得 Promise 只执行两个 catch？在第一个 catch 中抛出错误
-    // 连着写 catch 只会执行第一个 catch 
+    // 连着写 catch 只会执行第一个 catch
     const promise = new Promise((resolve, reject) => {
-        setTimeout(() => {
-            reject()
-        }, 500)
-    })
+      setTimeout(() => {
+        reject();
+      }, 500);
+    });
     promise
-        .then(() => {
-            console.log(1)
-        }).catch(() => {
-            console.log(2)
-            throw new Error('出错')
-        }).then(() => {
-            console.log(3)
-        }).catch(() => {
-            console.log(4)
-        })
+      .then(() => {
+        console.log(1);
+      })
+      .catch(() => {
+        console.log(2);
+        throw new Error("出错");
+      })
+      .then(() => {
+        console.log(3);
+      })
+      .catch(() => {
+        console.log(4);
+      });
     // 手写 primise
-    const PENDING = 'pending'
-    const RESOLVE = 'resolve'
-    const REJECTED = 'rejected'
+    const PENDING = "pending";
+    const RESOLVE = "resolve";
+    const REJECTED = "rejected";
 
     function myPromise(fn) {
-        const that = this
-        that.state = PENDING
-        that.value = null //保存 resolve 或者 reject 中传入的值
-        that.resolveCallbacks = [] //保存 then 中回调
-        that.rejectedCallbacks = []
+      const that = this;
+      that.state = PENDING;
+      that.value = null; //保存 resolve 或者 reject 中传入的值
+      that.resolveCallbacks = []; //保存 then 中回调
+      that.rejectedCallbacks = [];
 
-        function resolve(value) {
-            if (that.state === PENDING) {
-                that.state = RESOLVE
-                that.value = value
-                that.resolveCallbacks.map(cd => {
-                    cd(that.value)
-                })
-            }
+      function resolve(value) {
+        if (that.state === PENDING) {
+          that.state = RESOLVE;
+          that.value = value;
+          that.resolveCallbacks.map((cd) => {
+            cd(that.value);
+          });
         }
+      }
 
-        function reject(value) {
-            if (that.state === PENDING) {
-                that.state = REJECTED
-                that.value = value
-                that.rejectedCallbacks.map(cd => {
-                    cd(that.value)
-                })
-            }
+      function reject(value) {
+        if (that.state === PENDING) {
+          that.state = REJECTED;
+          that.value = value;
+          that.rejectedCallbacks.map((cd) => {
+            cd(that.value);
+          });
         }
-        // 执行 promise 的函数
-        try {
-            fn(resolve, reject)
-        } catch (e) {
-            reject(e)
-        }
+      }
+      // 执行 promise 的函数
+      try {
+        fn(resolve, reject);
+      } catch (e) {
+        reject(e);
+      }
     }
-    // promise.then() 函数接收两个参数，第一个成功回调，第二个失败回调 
+    // promise.then() 函数接收两个参数，第一个成功回调，第二个失败回调
     myPromise.prototype.then = function (onFulfilled, onRejected) {
-        const that = this
-        // 首先判断resolve与reject是不是函数，因为它们是可选参数
-        // 如果没有给定函数，那么就需要默认给一个函数 直接返回结果
-        onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v => v
-        onRejected = typeof onRejected === 'function' ? onRejected : v => {
-            throw new Error(v)
-        }
-        // 等待状态 将回调函数压入栈中
-        if (that.state == PENDING) {
-            that.rejectedCallbacks.push(onRejected)
-            that.resolveCallbacks.push(onFulfilled)
-        }
-        if (that.state == RESOLVE) {
-            onFulfilled(that.value)
-        }
-        if (that.state == REJECTED) {
-            onRejected(that.value)
-        }
-    }
+      const that = this;
+      // 首先判断resolve与reject是不是函数，因为它们是可选参数
+      // 如果没有给定函数，那么就需要默认给一个函数 直接返回结果
+      onFulfilled = typeof onFulfilled === "function" ? onFulfilled : (v) => v;
+      onRejected =
+        typeof onRejected === "function"
+          ? onRejected
+          : (v) => {
+              throw new Error(v);
+            };
+      // 等待状态 将回调函数压入栈中
+      if (that.state == PENDING) {
+        that.rejectedCallbacks.push(onRejected);
+        that.resolveCallbacks.push(onFulfilled);
+      }
+      if (that.state == RESOLVE) {
+        onFulfilled(that.value);
+      }
+      if (that.state == REJECTED) {
+        onRejected(that.value);
+      }
+    };
     new myPromise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(1)
-        }, 100)
-    }).then(res => {
-        console.log('myPromise', res)
-    })
+      setTimeout(() => {
+        resolve(1);
+      }, 100);
+    }).then((res) => {
+      console.log("myPromise", res);
+    });
     // 手写 promise.all()
     function PromiseAll(promiseArray) {
-        //请在此处补全代码
-        // 需要返回一个 promise 
-        return new Promise((resolve, reject) => {
-            // 首先判断传入的参数是否是一个数组
-            if (!Array.isArray(promiseArray)) {
-                return reject(new Error('传入的参数不是一个数组！'))
-            }
-            const res = []
-            let counter = 0 //计数
-            for (let i = 0; i < promiseArray.length; i++) {
-                //包装一层 promise 不需要去判断 数组中的项是否是 promise 
-                Promise.resolve(promiseArray[i])
-                    .then(result => {
-                        counter++
-                        res.push(result)
-                        if (counter === promiseArray.length) {
-                            resolve(res)
-                        }
-                    })
-                    .catch(e => reject(e))
-            }
-        })
+      //请在此处补全代码
+      // 需要返回一个 promise
+      return new Promise((resolve, reject) => {
+        // 首先判断传入的参数是否是一个数组
+        if (!Array.isArray(promiseArray)) {
+          return reject(new Error("传入的参数不是一个数组！"));
+        }
+        const res = [];
+        let counter = 0; //计数
+        for (let i = 0; i < promiseArray.length; i++) {
+          //包装一层 promise 不需要去判断 数组中的项是否是 promise
+          Promise.resolve(promiseArray[i])
+            .then((result) => {
+              counter++;
+              res.push(result);
+              if (counter === promiseArray.length) {
+                resolve(res);
+              }
+            })
+            .catch((e) => reject(e));
+        }
+      });
     }
 
     let myPromiseAll = function (promiseArr) {
-        const promiseArr_ = Array.from(promiseArr)
-        return new Promise((resolve, reject) => {
-            if (!Array.isArray(promiseArr_)) {
-                reject(new Error('传入的不是一个数组'))
-            }
-            const res = []
-            let counter = 0
-            for (const promise of promiseArr_) {
-                counter++
-                Promise.resolve(promise)
-                    .then(result => {
-                        res.push(result)
-                        if (counter === promiseArr_.length) {
-                            resolve(res)
-                        }
-                    })
-                    .catch(e => reject(e))
-            }
-        })
-    }
+      const promiseArr_ = Array.from(promiseArr);
+      return new Promise((resolve, reject) => {
+        if (!Array.isArray(promiseArr_)) {
+          reject(new Error("传入的不是一个数组"));
+        }
+        const res = [];
+        let counter = 0;
+        for (const promise of promiseArr_) {
+          counter++;
+          Promise.resolve(promise)
+            .then((result) => {
+              res.push(result);
+              if (counter === promiseArr_.length) {
+                resolve(res);
+              }
+            })
+            .catch((e) => reject(e));
+        }
+      });
+    };
     const p1 = new Promise((res, rej) => {
-        setTimeout(() => {
-            res('p1')
-        }, 1000)
-    })
+      setTimeout(() => {
+        res("p1");
+      }, 1000);
+    });
 
     const p2 = new Promise((res, rej) => {
-        setTimeout(() => {
-            res('p2')
-        }, 2000)
-    })
+      setTimeout(() => {
+        res("p2");
+      }, 2000);
+    });
 
     const p3 = new Promise((res, rej) => {
-        setTimeout(() => {
-            res('p3')
-        }, 3000)
-    })
+      setTimeout(() => {
+        res("p3");
+      }, 3000);
+    });
 
     const test = PromiseAll([p1, p2, p3])
-        .then(res => console.log(res))
-        .catch(e => console.log(e))
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
     console.log(test);
-</script>
-
+    let a = function () {
+      console.log(1);
+    };
+    console.log(a.toString())
+  </script>
 </html>

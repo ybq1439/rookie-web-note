@@ -1,0 +1,36 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-09-17 00:12:49
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #box1,
+      #box2 {
+        background: lightblue;
+        width: 500px;
+        height: 500px;
+      }
+      #box2 {
+        display: none;
+        background-color: lightcoral;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box1"></div>
+    <div id="box2"></div>
+  </body>
+  <script>
+    let box2 = document.getElementById("box2");
+    console.log(box2); //display设置为 none 还可以读到这个结构
+  </script>
+</html>
