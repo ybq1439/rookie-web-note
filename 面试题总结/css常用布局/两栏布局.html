@@ -1,0 +1,58 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-05-21 18:55:08
+ * @LastEdiTime: 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="left"></div>
+        <div id="right"></div>
+    </div>
+</body>
+<style>
+    /*1- 左边固定宽度 右边设置margin  */
+    #left {
+        width: 300px;
+        height: 50vh;
+        background-color: yellowgreen;
+        float: left;
+    }
+
+    #right {
+        height: 100vh;
+        background-color: skyblue;
+        margin-left: 300px;
+    }
+
+    /* 2- 使用flex 布局  */
+    /* #container {
+        display: flex;
+        height: 50vh;
+    }
+
+    #left {
+        width: 300px;
+        background-color: yellowgreen;
+    }
+
+    #right {
+        flex: 1;
+        background-color: skyblue;
+    } */
+</style>
+
+
+</html>
