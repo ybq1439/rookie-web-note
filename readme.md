@@ -374,20 +374,6 @@ console.log(colors.toPipedString())
 
 # 其他
 
-### 1-package-lock.json 的作用？
-
-​	用于锁定 依赖的版本，从而保证每一个工程中的依赖版本都是100%相同的。保证大家 npm install 的依赖版本都是一样。
-
-出现原因：
-
-​	在 package-lock.json 出现之前，是使用 semver 表示法设置可以升级的版本：
-
-- 如果写入的是 `〜0.13.0`，则只更新补丁版本：即 `0.13.1` 可以，但 `0.14.0` 不可以。
-- 如果写入的是 `^0.13.0`，则要更新补丁版本和次版本：即 `0.13.1`、`0.14.0`、依此类推。
-- 如果写入的是 `0.13.0`，则始终使用确切的版本。
-
-​	例如：如果依赖写的是 ~0.13.0 那么实际 npm install 的时候，如果有补丁版本的话，会安装成 0.13.2，这样的话，大家 npm install 的依赖版本就无法保证一样了。
-
 ## NPM 包管理
 
 ### 1-npm install xxxx --legacy-peer-deps 作用？
@@ -404,10 +390,63 @@ console.log(colors.toPipedString())
 
 重新下载安装所有的依赖包。	
 
+### 3-package-lock.json 的作用？
+
+​	用于锁定 依赖的版本，从而保证每一个工程中的依赖版本都是100%相同的。保证大家 npm install 的依赖版本都是一样。
+
+出现原因：
+
+​	在 package-lock.json 出现之前，是使用 semver 表示法设置可以升级的版本：
+
+- 如果写入的是 `〜0.13.0`，则只更新补丁版本：即 `0.13.1` 可以，但 `0.14.0` 不可以。
+- 如果写入的是 `^0.13.0`，则要更新补丁版本和次版本：即 `0.13.1`、`0.14.0`、依此类推。
+- 如果写入的是 `0.13.0`，则始终使用确切的版本。
+
+​	例如：如果依赖写的是 ~0.13.0 那么实际 npm install 的时候，如果有补丁版本的话，会安装成 0.13.2，这样的话，大家 npm install 的依赖版本就无法保证一样了。
+
 ## 事件循环
 
 ### 	1-宏任务与微任务有哪些？
 
 #### 		宏任务：setTimeout、setInterval、setImmediate、ajax 请求回调；
 
-#### 		微任务：Promise.then().catch().finally()、process.nextTick()
+#### 		微任务：Promise.then().catch().finally()、process.nextTick()；
+
+## webpack
+
+### 1-webpack  是什么？
+
+​	webpack 是一个用于现代 JavaScript 应用程序的 **静态模块打包工具**。
+
+​	webpack 的能力：
+
+​		1-编译代码能力，能够把开发阶段使用的例如像 ES6+ 的语法转译成 ES5 语法，从而提高开发效率，解决浏览器兼容问题；
+
+​		2-模块整合能力：在生产环境的时候，可以把散落的模块打包到一个 bundle.js，**解决了浏览器频繁请求模块文件的的问题**；
+
+​		3-万物皆模块的能力：webpack 可以将开发过程中使用的 **样式、图片、字体等资源文件** 都作为模块使用，这样就拥有了一个统一的模块化方案，所有 **资源文件的加载都可以通过代码控制** ，可以与业务代码一同维护，提高项目可维护性；
+
+## 2-webpack 打包流程？
+
+​	webpack 运行流程是一个 **串行过程**，在运行过程中会广播事件，然后对应的插件会监听它关心的事件，介入打包过程，这样的机制使得 wepack 拓展性很好。
+
+​	整个过程可以分为三个阶段：
+
+​		1-初始化流程：从 **配置文件和 shell 语句** 中读取与合并参数，并且初始化需要使用的 **插件**，已经配置 **插件执行环境等**。
+
+​		2-编译构建流程：从（entry）入口文件触发，针对每一个 module 调用对应的 Loader，去翻译文件的内容，同时找到 module 依赖的 module 递归的去编译处理；
+
+​		3-输出流程：对编译后的 module 合并成 chunk，把 chunk 转化成文件，输出到操作系统。
+
+### 3-webpack plugin 和 loader 的区别？
+
+​	1-loader：是指文件加载器，能够加载资源文件 例如 **.less、.sass、.png**，并且对这些文件进行处理，例如编译、压缩等，最后一起打包到指定文件中；
+
+​	2-plugin：增强 webpack，能够实现一些原生不支持的功能，例如：打包优化、资源管理、环境变量注入等。
+
+### 4-常见 loader、plugin？
+
+​	1-loader：style-loader（将css添加到DOM的内联样式标签style里）、less-loader（处理 less 文件）、babel-loader（使用 babel 转义 es6+）、html-minify-loader（压缩 html 文件）；
+
+​	2-plugin：CompressionWebpackPlugin（同时输出资源压缩版本）、MinChunksSizePlugin（指定 chunk 文件大小的最小值）
+
