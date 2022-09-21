@@ -1,6 +1,6 @@
 ## 什么是 BFC（**Block Formatting Context**）？
 
-​	简单总结：块级格式上下文**BFC是一个独立的布局环境，BFC内部的元素布局与外部互不影响**
+​	简单总结：块级格式上下文 **BFC是一个独立的布局环境，BFC内部的元素布局与外部互不影响**
 
 ## 布局规则
 
@@ -32,7 +32,7 @@
 
 ​	4-position：fixed、absolute；
 
-​	5-display：inline-block、flex或者inline-flex,table-cell,table-caption或者inline-table；
+​	5-display：**inline-block**、**flex** 或者 inline-flex,**table-cell**,table-caption或者inline-table；
 
 ## IFC （inline formatting context）
 

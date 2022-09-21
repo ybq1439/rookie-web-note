@@ -100,7 +100,7 @@
 
 ​		localStorage：所有同源窗口共享；
 
-​		sessionStorage：只在同源并且同窗口共享；		
+​		sessionStorage：只在同源并且 **标签页** 共享；		
 
 ### 4-async 和 defer 的区别？
 
@@ -370,8 +370,6 @@ var colors = new SpecialArray('red', 'green', 'blue')
 console.log(colors.toPipedString())
 ```
 
-
-
 # 其他
 
 ## NPM 包管理
@@ -416,7 +414,7 @@ console.log(colors.toPipedString())
 
 ### 1-webpack  是什么？
 
-​	webpack 是一个用于现代 JavaScript 应用程序的 **静态模块打包工具**。
+​	webpack 是一个用于现代 JavaScript 应用程序的 **静态模块-打包工具**。
 
 ​	webpack 的能力：
 
@@ -426,7 +424,7 @@ console.log(colors.toPipedString())
 
 ​		3-万物皆模块的能力：webpack 可以将开发过程中使用的 **样式、图片、字体等资源文件** 都作为模块使用，这样就拥有了一个统一的模块化方案，所有 **资源文件的加载都可以通过代码控制** ，可以与业务代码一同维护，提高项目可维护性；
 
-## 2-webpack 打包流程？
+### 2-webpack 打包流程？
 
 ​	webpack 运行流程是一个 **串行过程**，在运行过程中会广播事件，然后对应的插件会监听它关心的事件，介入打包过程，这样的机制使得 wepack 拓展性很好。
 
@@ -450,3 +448,44 @@ console.log(colors.toPipedString())
 
 ​	2-plugin：CompressionWebpackPlugin（同时输出资源压缩版本）、MinChunksSizePlugin（指定 chunk 文件大小的最小值）
 
+## 动画
+
+### 1-如何优化动画的加载？
+
+####  js 方面：
+
+​	（1）使用 **requestAnimationFrame** 取代 setTimeout、和 setInterval：它们两个都是宏任务，需要同一次事件循环中的 同步任务与 微任务队列 执行完成，才会拿出一个执行，这个是无法保证 **动画执行的时间**，也就有可能掉帧。
+
+​		requestAnimationFrame 优化：1-CPU 节能，当页面隐藏或者最小化时，会暂停渲染；2-函数节流，它的循环间隙时由 **屏幕刷新率决定的**，保证回调函数在屏幕的每一次刷新间隙中只会执行一次。
+
+​	（2）使用 web Worker：把一些耗时 操作数据的，不影响 UI 的任务可以放到 worker 线程中后台执行，避免主线程的拥堵；
+
+#### layout 阶段：
+
+​	避免不断的去触发重排，可以将动画 绝对定位 脱离文档流。
+
+​	尽量使用 **transform** 、**opacity** 去创建动画；
+
+#### paint 阶段：将移动元素或者渐变元素由 渲染层 提升到 合成层
+
+​	优点：只会重绘需要重绘的部分，合成图的位图直接由 GPU 合成，比 CPU 快；
+
+## 性能优化
+
+### 	1-路由懒加载减少 js 文件大小的原因是什么？
+
+​		路由懒加载使用的是 **webpack code splitting**，当我们使用路由懒加载时，对应懒加载的组件 会被从最终的 app.js 中抽离出来，形成单独的 js 文件，只有在需要进入这些页面的时候，才会去 加载对应的 文件。
+
+### 	2-图片太多优化加载？
+
+​		1-图片如果过大，可以压缩图片；
+
+​		2-使用缓存，也可以使用 CDN 加速服务；
+
+​		3-可以使用 专门的 **图片服务器** 管理图片资源；
+
+​		4-图片懒加载、以及虚拟列表；
+
+​		5-雷碧图，小icon合并成一张图片,通过**background-position** 来控制显示icon。减少请求，这些图片资源请求合成一个；
+
+### 	3-虚拟列表实现原理？？

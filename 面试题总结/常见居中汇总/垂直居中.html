@@ -7,78 +7,97 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>垂直居中</title>
     <style>
-        .father {
-            background-color: lightcoral;
-            width: 100%;
-            height: 200px;
-            margin-bottom: 20px;
-        }
+      .father {
+        background-color: lightcoral;
+        width: 100%;
+        height: 200px;
+        margin-bottom: 20px;
+      }
 
-        .son {
-            background-color: lightgreen;
-            width: 200px;
-            height: 100px;
-        }
+      .son {
+        background-color: lightgreen;
+        width: 200px;
+        height: 100px;
+      }
 
-        #father1 {
-            position: relative;
-        }
+      #father1 {
+        position: relative;
+      }
 
-        #son1 {
-            position: absolute;
-            /* 首先相对父元素，移动父元素的高度的 50%
+      #son1 {
+        position: absolute;
+        /* 首先相对父元素，移动父元素的高度的 50%
             然后子元素移动相对自己的高度一个 50% */
-            top: 50%;
-            transform: translateY(-50%);
-        }
+        top: 50%;
+        transform: translateY(-50%);
+      }
 
-        #father2 {
-            display: table-cell;
-            vertical-align: middle;
-            margin-top: 100px;
-        }
+      #father2 {
+        display: table-cell;
+        vertical-align: middle;
+        margin-top: 100px;
+      }
 
-        #father3 {
-            display: flex;
-            align-items: center;
-        }
+      #father3 {
+        display: flex;
+        align-items: center;
+      }
 
-        #father4 {
-            height: 200px;
-            line-height: 200px;
-        }
+      #father4 {
+        height: 200px;
+        line-height: 200px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>1-使用绝对定位 加 transform</h1>
     <div class="father" id="father1">
-        <div class="son" id="son1"></div>
+      <div class="son" id="son1"></div>
     </div>
     <h1>2-使用 tabel-cell 加 vertical-align</h1>
-    <p>tabel-cell使得元素像表格单元格形式呈现，像td。而vertical-align可以控制表格单元格对齐</p>
+    <p>
+      tabel-cell使得元素像表格单元格形式呈现，像td。而vertical-align可以控制表格单元格对齐
+    </p>
     <div class="father" id="father2">
-        <div class="son" id="son2"></div>
+      <div class="son" id="son2"></div>
     </div>
     <h1>3-块元素可以使用 flex</h1>
     <div class="father" id="father3">
-        <div class="son" id="son3"></div>
+      <div class="son" id="son3"></div>
     </div>
     <h1>4-行内元素可以设置行高设置为高度一样实现</h1>
     <div class="father" id="father4">
-        <span class="son" id="son4">我是行内元素 span</span>
+      <span class="son" id="son4">我是行内元素 span</span>
     </div>
-</body>
-<script>
-
-</script>
-
-
+    <!-- vertical-align 生效条件：
+    1-父元素设置 line-height,同时子元素也要设置，因为 line-height 是会继承的
+    1-父元素设置 table-cell；
+    2-父元素原本就是行内元素；
+    3-父元素为 table-cell 表格布局
+    ！！！ vertical-align 只能够用来定位行内元素、行内块元素、表格元素 
+    ！！！ 父元素设置为 display:inline-block 
+    ！！！ 是不行的-->
+    <h1>5-行内元素还可以通过 vertical-align 来实现</h1>
+    <div
+      style="background-color: lightblue; font-size: 16px; line-height: 100px"
+    >
+      <span style="vertical-align: bottom; line-height: 20px"
+        >bottom 我是行内元素</span
+      >
+      <span style="vertical-align: top; line-height: 20px"
+        >top 我是行内元素</span
+      >
+      <span style="vertical-align: middle; line-height: 20px"
+        >middle 我是行内元素</span
+      >
+    </div>
+  </body>
+  <script></script>
 </html>
