@@ -35,33 +35,3 @@ let thr = function (fn, delay) {
         }, delay);
     }
 }
-
-const thro = function (fn, delay) {
-    let timer = null
-    return function (...args) {
-        if (timer) {
-            return
-        }
-        timer = setTimeout(() => {
-            fn.apply(this, args)
-            timer = null
-        }, delay);
-    }
-}
-
-const deb_ = function (fn, delay, imme) {
-    let timer = null
-    return function (...args) {
-        clearTimeout(timer)
-        if (imme && !timer) {
-            timer = setTimeout(() => {
-                timer = null
-            }, delay)
-            fn.apply(this.args)
-        }
-        timer = setTimeout(() => {
-            fn.apply(this, args)
-
-        }, delay)
-    }
-}

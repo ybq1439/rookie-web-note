@@ -1,0 +1,75 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-09-22 22:36:50
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <button id="deb" name="deb">防抖</button>
+    </div>
+    <div>
+        <label for="thr">节流</label>
+        <input id="thr" type="text" name="thr" />
+    </div>
+</body>
+<script>
+    function deb(fn, delay, imme) {
+        let timer = null;
+        return function (...args) {
+            clearTimeout(timer);
+            if (imme && !timer) {
+                fn.apply(this, args);
+                timer = setTimeout(() => {
+                    timer = null;
+                }, delay);
+            } else {
+                timer = setTimeout(() => {
+                    fn.apply(this, args);
+                }, delay);
+            }
+        };
+    }
+    function thr(fn, delay) {
+        let timer = null;
+        return function (...args) {
+            if (!timer) {
+                fn.apply(this, args)
+                timer = setTimeout(() => {
+                    timer = null;
+                }, delay)
+            }
+        }
+    }
+
+    let debBtn = document.getElementById("deb");
+    function click(name) {
+        console.log(name)
+    }
+    let clickDeb = deb(click, 2000, true)
+    debBtn.onclick = function () {
+        clickDeb('jay')
+    }
+
+    let input = document.getElementById('thr');
+    function inputFun(value) {
+        console.log(value)
+    }
+    let thrInput = thr(inputFun, 1000);
+    input.oninput = function (e) {
+        thrInput(e.target.value)
+    }
+</script>
+
+</html>
