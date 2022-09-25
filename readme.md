@@ -370,6 +370,74 @@ var colors = new SpecialArray('red', 'green', 'blue')
 console.log(colors.toPipedString())
 ```
 
+# Node
+
+### 	1-node 中的事件循环？注意是 setTimeout 不是 setTimerout。
+
+​		分为六个阶段：
+
+#### 		（1）timer 阶段：执行 timer 的回调，即 setTimeout、setInterval 里的回调函数；
+
+#### 		（2）I/O 事件回调阶段（I/O callbacks）：执行上一轮循环中为未执行的 I/O 回调函数；
+
+#### 		（3）闲置阶段（idle,prepare）：系统内部使用；
+
+#### 		（4）轮询阶段（poll）：检索新的 I/O 事件;执行与 I/O 相关的回调。事实上除了其他几个阶段处理的事情，其他几乎所有的异步都在这个阶段处理。
+
+#### 		（5）检查阶段（check）：setImmediate 回调函数在此执行；
+
+#### 		（6）关闭事件回调阶段 (close callback)：一些关闭的回调函数，如：socket.on('close', ...)；
+
+​		除了上面六个阶段之外，还存在 **process.nextTIck**，它不属于上面的阶段，而是 一个阶段到另一个阶段的 **过渡期间过执行**；
+
+​		注意：每一个阶段都有一个自己的 **回调队列**，当事件循环进入某个阶段时，将会在该阶段内执行回调，**直到队列耗尽或者已经执行最大的回调函数数量**，那么就会进入下一个阶段。
+
+### 	2-node 中的微任务与宏任务？
+
+### 		（1）微任务：process.nextTick,Promise.then,queueMicrotask；
+
+### 		（2）宏任务：
+
+timer queue：setTimeout、setInterval；
+
+poll queue：IO事件
+check queue：setImmediate
+close queue：close事件
+
+### 		（3）执行顺序：
+
+​				1-next tick microtask queue；
+
+​				2-other microtask queue；
+
+​				3-timer queue；
+
+​				4-poll queue；
+
+​				5-check queue；
+
+​				6-close queue；
+
+## 	2-setTimeout、setInterval 执行顺序？
+
+​		两种情况：setTimeout,setImmediate
+
+​						setImmediate,setTimeout
+
+​		原因：遇到 setTimeout，虽然设置的是 0毫秒 触发，但实际上会被强制改成 **1ms**，时间到了然后塞入times阶段。所以这时候如果同步代码的执行 没有超过 1ms，那么到了 timer 阶段会跳过这个定时器；如果超过了 1ms 那么就会执行 timeout；
+
+```javascript
+setTimeout(() => {
+  console.log("setTimeout");
+}, 0);
+
+setImmediate(() => {
+  console.log("setImmediate");
+});
+```
+
+
+
 # 其他
 
 ## NPM 包管理
