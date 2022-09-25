@@ -43,10 +43,32 @@ const quickSort = (arr, start, end) => {
     quickSort(arr, baseIndex + 1, end)
 }
 
+const quickSort_ = (arr, start, end) => {
+    if (arr.length === 1 || start >= end) {
+        return
+    }
+    const partition = (array, start, end) => {
+        let mid = array[start];
+        while (start < end) {
+            while (start < end && array[end] >= mid) {
+                end--;
+            }
+            array[start] = array[end];
+            while (start < end && array[start] < mid) {
+                start++;
+            }
+            array[end] = array[start];
+        }
+        array[start] = mid;
+        return start
+    };
+    let baseIndex = partition(arr, start, end);
+    quickSort_(arr, start, baseIndex - 1)
+    quickSort_(arr, baseIndex + 1, end)
+};
 const arrTest = [5, 3, 8, 1, 2]
-quickSort(arrTest, 0, arrTest.length - 1)
-console.log(arrTest)
+// quickSort(arrTest, 0, arrTest.length - 1)
+// console.log(arrTest)
 
-const arrTest_ = [9, 8, 7, 6, 5]
-const result_ = quickSort_(arrTest_)
-console.log(result_)
+quickSort_(arrTest, 0, arrTest.length - 1)
+console.log(arrTest)

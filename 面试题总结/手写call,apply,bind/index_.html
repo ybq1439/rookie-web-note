@@ -1,0 +1,48 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-09-25 22:37:01
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    Function.prototype.myCall = function (target, ...args) {
+        let fn = this;
+        target = target || window;
+        target.fun = fn;
+        const result = target.fun(...args);
+        delete target.fun;
+        return result
+    };
+    Function.prototype.myApply = function (target, args) {
+        let fn = this;
+        target = target || window;
+        target.fun = fn;
+        const result = target.fun(...args);
+        delete target.fun
+        return result
+    }
+    Function.prototype.myBind = function (target, ...args) {
+        let fn = this;
+        return function Fn() {
+            // new 的第一步 let obj = Object.create(Fn.prototype);
+            // 这时候 this 就控制未 obj
+            return fn.apply(this instanceof Fn ? this : target, [...arguments, ...args])
+        }
+    }
+</script>
+
+</html>
