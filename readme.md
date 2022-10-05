@@ -400,6 +400,95 @@ var colors = new SpecialArray('red', 'green', 'blue')
 console.log(colors.toPipedString())
 ```
 
+### 9-proxy 和 object.defineProperty 对比？
+
+#### object.defineProperty：
+
+​	1-会直接在 **对象上添加或者修改属性**，并返回这个对象；
+
+#### 	VUE2.x 中数据劫持存在问题：
+
+​	1-无法监测到 数组的变化；
+
+​	2-对象的监测，需要对每一个属性都 调用 object.defineProperty 方法，创建对应的 setter、getter；
+
+```javascript
+Object.keys(obj).forEach(key => {
+  Object.defineProperty(obj, key, {
+    // ...
+  })
+})
+```
+
+#### proxy：
+
+​	Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）。对对象的操作，会先通过 **代理对象**，随后转发到 源对象。handler 中总共有13中拦截操作；
+
+语法：
+
+```javascript
+const p = new Proxy(target, handler)
+```
+
+#### 	VUE3.x 中使用 proxy 解决问题：
+
+​	1-Proxy 是针对 **整个对象** 而言的，而不是 **对象的某个属性**，所以不需要遍历对象的每一个属性去设置 get、set；
+
+```javascript
+let obj = {
+  name: 'Eason',
+  age: 30
+}
+let handler = {
+  get (target, key, receiver) {
+    console.log('get', key)
+    return Reflect.get(target, key, receiver)
+  },
+  set (target, key, value, receiver) {
+    console.log('set', key, value)
+    return Reflect.set(target, key, value, receiver)
+  }
+}
+let proxy = new Proxy(obj, handler)
+proxy.name = 'Zoe' // set name Zoe
+proxy.age = 18 // set age 18
+```
+
+​	2-Proxy 能够支持监测数组的变化，不需要对数组方法进行重载；
+
+#### 嵌套支持：两种都不支持，都需要逐层递归解决；
+
+proxy做法：get 拦截里面，递归调用 Proxy 并返回；
+
+```javascript
+let obj = {
+  info: {
+    name: 'eason',
+    blogs: ['webpack', 'babel', 'cache']
+  }
+}
+let handler = {
+  get (target, key, receiver) {
+    console.log('get', key)
+    // 递归创建并返回
+    if (typeof target[key] === 'object' && target[key] !== null) {
+      return new Proxy(target[key], handler)
+    }
+    return Reflect.get(target, key, receiver)
+  },
+  set (target, key, value, receiver) {
+    console.log('set', key, value)
+    return Reflect.set(target, key, value, receiver)
+  }
+}
+let proxy = new Proxy(obj, handler)
+// 以下两句都能够进入 set
+proxy.info.name = 'Zoe'
+proxy.info.blogs.push('proxy')
+```
+
+
+
 # Node
 
 ### 	1-node 中的事件循环？注意是 setTimeout 不是 setTimerout。
@@ -640,4 +729,97 @@ setImmediate(() => {
 
 
 
-## 
+# TypeScript
+
+## 1-说说你对 TypeScript 的理解？
+
+​	TypeScript 是 JavaScript 的 **超集**，支持面向对象的概念，如类、接口、继承、泛型等。支持 **静态类型检查**，能够在代码编译阶段就检查出数据类型的错误。
+
+### 	特性：
+
+​	（1）类型批注和编译时类型检查；
+
+​	（2）类型推断：ts 中如果没有给定类型，会自动推断变量类型；
+
+​	（3）接口：定义对象类型；
+
+​	（4）泛型编程：写代码时使用之后才指定类型；
+
+​	。。。。。。
+
+## 2- 什么是枚举类型？
+
+​	枚举就是一个对象所有可能的值的集合。通过 **enum** 关键字定义。
+
+​	三种类型：数字枚举、字符串枚举、异构枚举
+
+```typescript
+enum Days {Sun, Mon, Tue, Wed, Thu, Fri, Sat};
+
+console.log(Days["Sun"] === 0); // true
+console.log(Days["Mon"] === 1); // true
+console.log(Days["Tue"] === 2); // true
+console.log(Days["Sat"] === 6); // true
+```
+
+### 应用场景
+
+​	就拿回生活的例子，后端返回的字段使用 0 - 6 标记对应的日期，这时候就可以使用枚举可提高代码可读性，如下：
+
+```typescript
+enum Days {Sun, Mon, Tue, Wed, Thu, Fri, Sat};
+
+console.log(Days["Sun"] === 0); // true
+console.log(Days["Mon"] === 1); // true
+console.log(Days["Tue"] === 2); // true
+console.log(Days["Sat"] === 6); // true
+```
+
+## 3-说一说对接口的理解？
+
+​	TypeScript 一大特性是对具体的结构进行类型检查，接口的作用就是 **定义、命名** 这些结构，然后可以进行 **类型批注**。接口也是可以进行 **继承** 的。
+
+```typescript
+// 先定义一个接口
+interface IUser {
+  name: string;
+  age: number;
+}
+const getUserInfo = (user: IUser): string => {
+  return `name: ${user.name}, age: ${user.age}`;
+};
+// 正确的调用
+getUserInfo({name: "koala", age: 18});
+```
+
+## 4-说说你对泛型的理解？
+
+​	泛型允许我们编写代码在使用的时候再 **指定类型** 的特性，比如定义 函数、接口、类的时候。
+
+例子：比如有一个函数，输入的参数 value 可以是任何类型，但是返回值为一个数组，数组元素的类型和 value 类型一致，那么我们这里就可以使用 **泛型批注 value **，同时返回值类型也是 泛型的数组。
+
+```typescript
+function creatArray<T>(length: number, value: T): Array<T> {
+  let result: Array<T> = []
+  for (let i = 0; i < length; i++) {
+    result.push(value)
+  }
+  return result
+}
+console.log(creatArray(1, 'x'))
+```
+
+# 代码托管 git
+
+## 1-git merge 和 git rebase 的区别？
+
+​	它们两个有着同样的作用，都是将一个分支的提交合并到另一个分支上去。
+
+### 	git merge：
+
+​	会合并 **共同的祖先、各自最新的提交**，然后将修改的内容 **生成一次新的提交**。
+
+### 	git rebase：
+
+​	如果在 master 上 git rebase dev，会从两个共同的祖先开始 **提取 master 分支的修改**，然后在目标分支上 **重复的提交 master 上新的提交**。**会舍弃掉当前分支的提交**
+
