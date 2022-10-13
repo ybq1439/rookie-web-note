@@ -21,7 +21,7 @@
         console.log(foo)
         return;
 
-        function foo() {}
+        function foo() { }
     }
     // bar();
     // console.log(foo);
@@ -53,7 +53,7 @@
     // console.log(foo.x2);
     // --------------------------------------------------------------------
 
-    var fun = function bar3() {}
+    var fun = function bar3() { }
     // console.log(bar3) //undefined
     // --------------------------------------------------------------------
 
@@ -71,7 +71,11 @@
     // fun2(1); //2
 
     // --------------------------------------------------------------------
-    function fun3() {}
+    function fun3() { }
     delete fun3.length;
     console.log(fun3.length);
+
+
+    const result = [10, 10, 10].map(parseInt);
+    console.log('parseInt result:', result)
 </script>

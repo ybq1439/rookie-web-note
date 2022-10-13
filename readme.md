@@ -222,7 +222,7 @@ Number.isNaN：首先判断传入参数的类型，只有传入的参数为 NaN 
 [] 的 valueOf 结果为 [] ，toString 的结果为 ""；
 ```
 
-####  ["1", "2", "3"].map(parseInt) 答案是多少？
+###  ["1", "2", "3"].map(parseInt) 答案是多少？
 
 ​	注意：1-paser.Int(str,radix) 解析字符串，返回指定基数的 **十进制整数**。也就是说，把 str 看作是 radix 进制的整数，然后转化为十进制数。radix 假如指定 0 或未指定，基数将会根据字符串的值进行推算。
 
@@ -240,6 +240,17 @@ console.log(result)//[ 1, NaN, NaN ]
 //parseInt('2',1) 这里把 1进制的 '2' 转化为 10 进制，很明显，1 进制里面没有 2，所以会返回 NaN
 //parseInt('3',2) 同上
 ```
+
+### [10,10,10],map(parseInt) 答案？
+
+为什么最后一个是2，因为 这是 二进制 1 0，所以是2。
+
+```javascript
+    const result = [10, 10, 10].map(parseInt);
+    console.log('parseInt result:', result)//10,NaN,2
+```
+
+
 
 ### 6-运算符优先级（部分）
 
