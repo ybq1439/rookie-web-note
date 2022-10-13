@@ -1,0 +1,48 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-09-28 22:33:50
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function jsonp(url, params, callBack) {
+        // 1-检查是否携带query参数确定连接符
+        let queryString = url.indexOf('?') === -1 ? '?' : '&';
+        //2-确定携带参数
+        for (const item of params) {
+            if (params.hasOwnProperty(item)) {
+                queryString += `${item}=${params[item]}&`;
+            }
+        }
+        //3-获取函数名
+        let randomName = Math.random.toString().replace('.', '');
+        let callBackName = `callBack_${random()}`;
+        queryString += `callBackName=${callBackName}`;
+        //4-创建 script 标签
+        let script = document.createElement('script');
+        script.src = url + queryString;
+        document.getElementsByTagName('head')[0].appendChild(script);
+        //5-绑定回调函数到 window 对象
+        window[callBackName] = function () {
+            callBack();
+            // 6-去掉 script 标签
+            document.getElementsByTagName('head')[0].remove(script);
+        }
+    }
+</script>
+
+</html>
