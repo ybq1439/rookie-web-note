@@ -29,8 +29,8 @@
             }
         }
         //3-获取函数名
-        let randomName = Math.random.toString().replace('.', '');
-        let callBackName = `callBack_${random()}`;
+        let randomName = Math.random().toString().replace('.', '');
+        let callBackName = `callBack_${randomName}`;
         queryString += `callBackName=${callBackName}`;
         //4-创建 script 标签
         let script = document.createElement('script');

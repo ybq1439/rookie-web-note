@@ -50,3 +50,15 @@
 
 ​		2-使用 **最长子序列算法** 替代双端指针算法；
 
+## 3-中央事件总线原理？
+
+​	在 **VM Vue 实例** 的 beforeCreate 生命周期中设置，利用的是 发布订阅者模式，	vue.on、vue.off、vue.emit
+
+```javascript
+  beforeCreate() {
+    // 中央事件总线的安装
+    console.log('我是谁',this)//this 就是 VM vue实例
+    Vue.prototype.$bus = this
+  }
+```
+

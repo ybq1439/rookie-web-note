@@ -7,7 +7,7 @@
  */
 class EventEmitter {
     constructor() {
-        this._event = {}
+        this._event = {} 
     }
     // 注册事件
     on(eventName, callBack) {

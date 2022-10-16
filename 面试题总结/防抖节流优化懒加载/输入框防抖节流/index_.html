@@ -1,0 +1,44 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-10-07 20:05:06
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <input id="input" type="text" />
+    </div>
+</body>
+<script>
+    let input = document.querySelector('#input');
+    let thr = function (fn, delay) {
+        let time = null;
+        return function (...args) {
+            if (time) {
+                return
+            }
+            time = setTimeout(() => {
+                fn.apply(this, args)
+                time = null
+            }, delay)
+        }
+    };
+    input.oninput = function (event) {
+        thr((value) => {
+            console.log(value)
+        }, 1000)(event.target.value)
+    }
+</script>
+
+</html>

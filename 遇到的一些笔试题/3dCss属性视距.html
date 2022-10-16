@@ -1,0 +1,47 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-10-16 15:24:29
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            /* 定义我们从哪个位置去看3D 元素 */
+            /* 也就是指定观察者与 z=0 平面的距离 */
+            perspective: 500px;
+        }
+
+        .box1 {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background-color: lightblue;
+            /* 如果 translateZ 大于 perspective 那么我们就看不到了，因为和它在同一个平面 */
+            transform: translateZ(499px);
+        }
+
+        .box2 {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background-color: lightcoral;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1"></div>
+    <div class="box2"></div>
+</body>
+
+</html>

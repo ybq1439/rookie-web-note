@@ -487,7 +487,41 @@ proxy.info.name = 'Zoe'
 proxy.info.blogs.push('proxy')
 ```
 
+### 10-获取 input 框中值的方式？
 
+​	（1）**ID**：document.getElementById('input').value；
+
+​	（2）**class**：document.getElementsByClassName('class_name')[index].value；
+
+​	（3）**Tag**：document.getElementsByTagName('tag_name')[index].value；
+
+​	（4）**Name**：document.getElementsByName("searchTxt")[0].value;
+
+​	（5）使用 CSS 的选择器来获取：document.querySelector('selector').value、document.querySelectorAll('selector')[index].value；
+
+### 11-javaScript 中的垃圾回收机制？
+
+#### 	（1）引用计数法：通过判断变量的引用数判断是否要回收，如果引用数等于 0 就回收；
+
+##### 	缺点：
+
+​	1-如下：如果变量互相引用，那么它们两个的引用数都会大于等于1，不会被回收，造成内存泄漏；
+
+```javascript
+function fn () {
+  const obj1 = {}
+  const obj2 = {}
+  obj1.a = obj2
+  obj2.a = obj1
+}
+fn()
+```
+
+​	2-引用计数法，需要一个计数器，需要占用比较多的资源；	
+
+#### （2）标记清除算法：最常用垃圾回收机制。
+
+​		大致过程：（1）垃圾收集器在运行时给内存中的所有变量都加上一个标记，默认标记为 垃圾；（2）然后从根节点开始遍历，把不是垃圾的节点标标记 不是垃圾；（3）清除所有标记为 垃圾的变量，释放内存；（4）最后把所有的变量都重新标记为 垃圾，等待下次垃圾回收；
 
 # Node
 
@@ -554,6 +588,8 @@ setImmediate(() => {
   console.log("setImmediate");
 });
 ```
+
+## 3-说说你对 node 中间件理解？
 
 
 
@@ -625,7 +661,7 @@ setImmediate(() => {
 
 ### 2-webpack 打包流程？
 
-​	webpack 运行流程是一个 **串行过程**，在运行过程中会广播事件，然后对应的插件会监听它关心的事件，介入打包过程，这样的机制使得 wepack 拓展性很好。
+​	webpack 运行流程是一个 **串行过程**，在运行过程中会广播事件，然后对应的插件会监听它关心的事件，介入打包过程。
 
 ​	整个过程可以分为三个阶段：
 
@@ -645,7 +681,7 @@ setImmediate(() => {
 
 ​	1-loader：style-loader（将css添加到DOM的内联样式标签style里）、less-loader（处理 less 文件）、babel-loader（使用 babel 转义 es6+）、html-minify-loader（压缩 html 文件）；
 
-​	2-plugin：CompressionWebpackPlugin（同时输出资源压缩版本）、MinChunksSizePlugin（指定 chunk 文件大小的最小值）
+​	2-plugin：CompressionWebpackPlugin（同时输出资源压缩版本）、MinChunksSizePlugin（指定 chunk 文件大小的最小值，合并 chunck）
 
 ### 5-什么是 bundle、chunk、module？
 
@@ -654,6 +690,14 @@ setImmediate(() => {
 ​	chunk：打包构代码块，一个 chunk 由多个模块组合而成，用于代码的合并和分割；
 
 ​	bundle：处理好 chunk 之后就会生成对应的 bundle，一般一个 chunk 对应一个 bundle，是最终输出的，能够直接在浏览器中运行；
+
+### 6-plugin 的原理？
+
+​	webpack 是基于事件流的，运行过程会 广播事件，然后对应的插件会监听它关心的事件，介入打包过程，实现插件系统的基础是 **Tapable**。Tapable 是一个 eventEmit 库，控制钩子函数的订阅与发布。
+
+### 7-loader 原理？
+
+​	loader 就是一个函数，匹配到对应的文件，就使用 loader 去加载文件。loader 的加载是一个串行过程，顺序是从后往前的执行过程。
 
 ## 动画
 
@@ -683,7 +727,7 @@ setImmediate(() => {
 
 ​		路由懒加载使用的是 **webpack 代码分离**，当我们使用路由懒加载时，对应懒加载的组件 会被从最终的 app.js 中抽离出来，形成单独的 js 文件，只有在需要进入这些页面的时候，才会去 加载对应的 文件。
 
-### 	2-图片太多优化加载？
+### 	2-图片太多优】化加载？
 
 ​		1-图片如果过大，可以压缩图片；
 
@@ -703,6 +747,18 @@ setImmediate(() => {
 
 ​		endIndex = startIndex + (clientHeight/itemHeight) - 1；
 
+### 4-为什么 vite 开发环境比 webpack 快？
+
+​		webpack 是先打包，然后启动开发服务器，请求服务器时候，给予打包后的结果。
+
+#### 	快在哪里：
+
+​		（1）vite 是直接启动开发服务器，**不需要进行打包**，也就不需要去分析模块依赖、编译；
+
+​		（2）模块加载时基于浏览器本身支持的 **ES Module**，并且模块编译是 **动态编译** 的过程，只有在使用时候才编译，缩短编译时间；；
+
+​		（3）HRM 热更新方面，当某个模块内容改变时，让浏览器去 **重新请求该模块即可**，而不是像 webpack 重新将该模块的 **所有依赖重新编译**；
+
 # 操作系统
 
 ## 1-线程于进程的区别？
@@ -711,7 +767,7 @@ setImmediate(() => {
 
 ​		进程：进程是正在运行的程序的一个抽象，是系统进行 **资源分配** 以及 **调度** 的基本单位。
 
-​		线程：任务 **调度** 和 **执行** 的基本单位。
+​		线程：任务 **调度** 和 **执行** 的基本单位 。
 
 ### 	开销方面：
 
