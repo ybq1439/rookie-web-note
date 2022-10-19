@@ -1,0 +1,35 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-10-19 23:45:59
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var a = 10;
+    let obj = {
+        a: 5,
+        say: function () {
+            console.log(this.a)
+        }
+    }
+    let func = obj.say
+    let func2 = obj.say.bind(obj)
+    func() // 10 这里特别注意 如果使用let 定义 a，那么不会挂到window上，也就返回undefined
+    func2() // 5
+</script>
+
+</html>

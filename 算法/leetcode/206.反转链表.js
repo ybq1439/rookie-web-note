@@ -17,3 +17,14 @@ var reverseList = function (head) {
     }
     return pre
 };
+// 反转链表递归版本
+const reverseList_ = (head) => {
+    if (!head || !head.next) {
+        return head
+    }
+    // 指针移到最末尾
+    const newHead = reverseList_(head);
+    head.next.next = head;
+    head.next = null;
+    return newHead
+};

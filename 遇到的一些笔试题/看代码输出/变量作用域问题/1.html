@@ -1,0 +1,40 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-10-19 23:58:27
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var a = 0;
+    (function () {
+        var a = { a: 5 };
+        var b = function () {
+            setTimeout(() => {
+                console.log(this.a)
+            })
+        }
+        b(); // 0
+        b.call(a); // 1
+        a.a = 1;
+        console.log(a)
+        a = { a: 2 }
+        console.log(a)
+    })()
+
+</script>
+
+</html>

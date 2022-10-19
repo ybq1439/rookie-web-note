@@ -1,0 +1,34 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-10-19 23:38:39
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var b;
+    (function a() {
+        let d = '2'
+        b = function () {
+            console.log(d);
+            // 这里要注意的是，如果注释掉 let d 不会报错了，会使用上层的 d
+            let d = 3//Cannot access 'd' before initialization
+        }
+    })();
+    b();
+</script>
+
+</html>
