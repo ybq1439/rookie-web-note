@@ -604,7 +604,7 @@ setImmediate(() => {
 
 ### 1-中间件是什么？
 
-​	中间件是介于 **应用程序** 和 **系统软件** 之间的一类软件，它使用系统软件提供的基础功能，
+​	中间件是介于 **应用** 和 **系统软件** 之间的一类软件，它使用系统软件提供的基础功能，
 
 作用：衔接网络上应用程序的各个部分或者不同的应用，可以达到 **资源共享**、**功能共享** 的目的。
 
@@ -615,6 +615,65 @@ setImmediate(() => {
 ### 3-如何去封装一个 中间件？
 
 ​	主要就是实现封装的函数，像我们的 express.router 去写 APi，就需要传递几个参数，第一个就我们的 API 地址，后面参数就是 业务处理的 函数，然后这个函数就会接受 三个参数，也就是  **request（请求对象）、response（响应对象）、next（执行下一个中间件的函数）**。
+
+```javascript
+var express = require('express');
+var router = express.Router();
+
+const {
+    getClass,
+} = require("../controllers/course");
+
+router.post('/getFreeTime', function (req, res, next) {
+    console.log(req.body.className)
+    let className = req.body.className
+    console.log(className)
+    getCourse(className).then(getCourse_result => {
+        console.log(getCourse_result)
+        res.send({
+            error: 0,
+            getCourse_result
+        })
+    })
+})
+
+```
+
+
+
+# React
+
+## 1-state 和 props区别？
+
+一个组件的显示形态可以由 状态 state 和 参数 props 决定。
+
+#### setState：
+
+​	**`setState()`** 将对组件 state 的更改 **排入队列**，并通知 React 需要使用更新后的 state 重新渲染此组件及其子组件。setState 并不会立即去更新组件，它会一次性的去 **更新多个组件**，优点是 **性能更好，不需要频繁的调用 render 方法**。
+
+​	推迟更新组件，也带来一个问题，我们无法立刻或者最新的数据，可以通过 setState 第二个参数实现，第二个参数是回调，会在 **数据更新、组件渲染之后** 调用，相当于 **componentDidUpdate 钩子**；
+
+#### props：
+
+​	基于组件化的思想，props 就是组件外部传入组件内部的参数，然后 react 单向数据流的思想，也可以理解为 props 是父组件传递给子组件的数据；特别注意 **props** 不可以在组件内部修改，需要在 **父组件中修改**，直接修改 不会重新渲染。
+
+#### 总结：
+
+相同点：
+
+​	1-都是用来保存数据的；
+
+​	2-都是对象；
+
+​	3-他们改变都会触发组件重新渲染；
+
+不同点：
+
+​	1-props 是外部参数，state 是组件内部维护的；
+
+​	2-props 在组件内部是不可修改的，但 state 在组件内部可以进行修改；
+
+​	
 
 # 其他
 
@@ -903,3 +962,4 @@ console.log(creatArray(1, 'x'))
 ​	如果在 master 上 git rebase dev，会从两个共同的祖先开始 **提取 master 分支的修改**，然后在目标分支上 **重复的提交 master 上新的提交**。**会舍弃掉当前分支的提交**
 
 ## 说一说 JWT 以及Token？
+
