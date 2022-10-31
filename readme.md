@@ -673,7 +673,17 @@ router.post('/getFreeTime', function (req, res, next) {
 
 ​	2-props 在组件内部是不可修改的，但 state 在组件内部可以进行修改；
 
-​	
+## 2-index 为什么不推荐作为 key?
+
+​	如果只是展示数据是不会有问题的。
+
+​	例子：数组三项子元素，**对应 key 0,1,2**。接下来我们删除了 第一条数据，那么 index 变为了 0,1。**react diff 更新的时候，发现 2 不见了，就会删掉 2 的虚拟DOM**。
+
+## 3-什么叫受控组件？
+
+​	在 HTML 中，表单元素（如`<input>`、 `<textarea>` 和 `<select>`）通常自己维护 state，并根据用户输入进行更新。而在 React 中，可变状态（mutable state）通常保存在组件的 state 属性中，并且只能通过使用 [`setState()`](https://zh-hans.reactjs.org/docs/react-component.html#setstate)来更新。
+
+​	把上面两种结合起来，是的 react 的 state 成为 **唯一数据源**，同时渲染表单的组件控制用户输入的事件，那么这个 组件就是受控组件。
 
 # 其他
 
@@ -706,6 +716,18 @@ router.post('/getFreeTime', function (req, res, next) {
 - 如果写入的是 `0.13.0`，则始终使用确切的版本。
 
 ​	例如：如果依赖写的是 ~0.13.0 那么实际 npm install 的时候，如果有补丁版本的话，会安装成 0.13.2，这样的话，大家 npm install 的依赖版本就无法保证一样了。
+
+### 4-npm install 
+
+#### 	(1)npm install --save:
+
+​		在 npm 5.0.0 之前，我没安装包的时候，不会默认把包添加到依赖项，这个选项就是安包同时把它添加到依赖项；
+
+​		在 npm 5.0.0 后，安包都会默认的添加到依赖项；
+
+#### 	(2)npm install --D:
+
+​		这些包会出现在 **devDependencies** 里面，只会在开发环境使用。
 
 ## 事件循环
 
