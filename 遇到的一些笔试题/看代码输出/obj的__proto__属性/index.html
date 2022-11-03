@@ -1,0 +1,41 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-11-03 20:31:05
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    window.onload = function () {
+        const obj = {
+            flag: true,
+            setFlag(value) {
+                this.flag = value;
+            },
+            getFlag() {
+                return this.flag
+            }
+        };
+        const son = {
+            __proto__: obj//这样设置原型对象确实是有效的
+        };
+        // son.flag = false;//这样在son自生上添加一个 flag 属性
+        console.log('sonFlag', son.flag)
+        console.log('objFlag', obj.flag)
+    }
+</script>
+
+</html>
