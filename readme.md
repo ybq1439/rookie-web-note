@@ -570,6 +570,36 @@ fn()
 
 ##### 			2-`querySelectorAll` 选择的 元素集合 `HTMLCollection `；
 
+### 13-JS 中的内置对象有哪些？
+
+#### 	1-值属性：NaN、undefined;
+
+#### 	2-函数：isNaN()、parseInt()、parseFloat();
+
+#### 	3-基本对象：Object、Function、Boolean；
+
+#### 	4-数字日期：Number,Math,Date,BigInt;
+
+#### 	5-字符串：String；
+
+### 14-Array.from,Array.of？
+
+#### 	1-Array.from:把一个`可迭代对象`或者`伪数组`转化为数组；
+
+#### 	2-Array.of:创建数组，而不考虑参数的数量和类型；和Array(7)的区别在于，Array(7)会创建`length===7`的空数组；
+
+```javascript
+Array.of(7); // [7]
+Array(7); // array of 7 empty slots
+
+Array.of(1, 2, 3); // [1, 2, 3]
+Array(1, 2, 3);    // [1, 2, 3]
+```
+
+​	
+
+
+
 Node
 
 ### 	1-node 中的事件循环？注意是 setTimeout 不是 setTimerout。
@@ -977,7 +1007,7 @@ console.log(creatArray(1, 'x'))
 
 ### 1-JWT(JSON Web Token) 鉴权是什么？
 
-	JWT 本质上一种 **字符串书写规范**，是用来在用户与服务器之间传递安全可靠的信息。现在的前后端分离项目中，我们就会使用 这种方式去鉴权。
+	JWT 本质上一种 字符串书写规范，是用来在用户与服务器之间传递安全可靠的信息。现在的前后端分离项目中，我们就会使用 这种方式去鉴权。
 
 #### 实现鉴权过程：
 

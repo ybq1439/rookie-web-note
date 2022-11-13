@@ -46,6 +46,35 @@
 
 ​		（3）useRef：`useRef` 返回一个可变的 ref 对象，其 `.current` 属性被初始化为传入的参数；
 
+### 	如何实现一个 hooks 自定义 hooks：
+
+​		通过自定义 hooks，可以把组件逻辑提取出来，进行复用。hooks 就是一个函数。
+
+```jsx
+import { useState, useEffect } from 'react';
+
+function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null);
+
+  useEffect(() => {
+    function handleStatusChange(status) {
+      setIsOnline(status.isOnline);
+    }
+
+    ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
+    return () => {
+      ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
+    };
+  });
+
+  return isOnline;
+}
+```
+
+#### 		1-自定义 Hook 是一个函数，其名称以 “`use`” 开头，函数内部可以调用其他的 Hook。原因：使用 use 开头，表示这个函数是否对内部 hook 的调用，react 无法检查 这个 hook 是否违背了 `Hook 的规则`。
+
+#### 		2-组件使用相同的 hook 不会共享 state。
+
 ## 5-state 和 props区别？
 
 一个组件的显示形态可以由 状态 state 和 参数 props 决定。
@@ -75,3 +104,5 @@
 ​	1-props 是外部参数，state 是组件内部维护的；
 
 ​	2-props 在组件内部是不可修改的，但 state 在组件内部可以进行修改；
+
+## 6-函数式组件与类组件？
