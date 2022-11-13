@@ -29,10 +29,13 @@ const insertSort = (arr) => {
 }
 const insertSort_ = (arr) => {
     const totalLength = arr.length;
+    if (totalLength <= 1) {
+        return arr
+    }
     for (let i = 1; i < totalLength; i++) {
         const temp = arr[i];
         let j = i;
-        while (j - 1 >= 0 && arr[j - 1] > temp) {
+        while (j >= 1 && arr[j - 1] > temp) {
             arr[j] = arr[j - 1];
             j--;
         }

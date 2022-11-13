@@ -44,27 +44,28 @@ const quickSort = (arr, start, end) => {
 }
 
 const quickSort_ = (arr, start, end) => {
-    if (arr.length === 1 || start >= end) {
+    const totalLength = arr.length;
+    if (totalLength <= 1) {
         return
     }
-    const partition = (array, start, end) => {
-        let mid = array[start];
+    const partition = (start, end) => {
+        let baseValue = arr[start];
         while (start < end) {
-            while (start < end && array[end] >= mid) {
+            while (start < end && arr[end] > baseValue) {
                 end--;
             }
-            array[start] = array[end];
-            while (start < end && array[start] < mid) {
+            arr[start] = arr[end];
+            while (start < end && arr[start] < baseValue) {
                 start++;
             }
-            array[end] = array[start];
+            arr[end] = arr[start];
         }
-        array[start] = mid;
+        arr[start] = baseValue;
         return start
     };
-    let baseIndex = partition(arr, start, end);
-    quickSort_(arr, start, baseIndex - 1)
-    quickSort_(arr, baseIndex + 1, end)
+    let midIndex = partition(0, totalLength - 1);
+    partition(0, midIndex - 1)
+    partition(midIndex + 1, totalLength - 1)
 };
 const arrTest = [5, 3, 8, 1, 2]
 // quickSort(arrTest, 0, arrTest.length - 1)
