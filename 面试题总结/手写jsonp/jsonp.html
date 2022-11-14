@@ -1,0 +1,45 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-11-13 19:03:02
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function myJsonp(url, params, fun) {
+        let ifHaveQuery = url.indexOf('?') === -1 ? false : true;
+        let queryString = url;
+        if (!ifHaveQuery) {
+            queryString += '?';
+        }
+        for (const param in params) {
+            queryString += `&${param}=${params[param]}`;
+        }
+        let random = Math.random().toString().replace('.', '');
+        let callBackName = `callBack_${random}`;
+        queryString += `&callBackName=${callBackName}`;
+        let script = document.createElement('script');
+        script.src = queryString;
+
+        document.getElementsByTagName('head')[0].appendChild(script)
+        window[callBackName] = function () {
+            fun([...arguments])
+            document.getElementsByTagName('head')[0].removeChild(script)
+        }
+    }
+</script>
+
+</html>

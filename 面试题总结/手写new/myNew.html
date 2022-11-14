@@ -1,0 +1,29 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: ybq
+ * @Date: 2022-11-13 18:59:32
+ * @LastEdiTime: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function myNew(father, ...args) {
+        let obj = Object.create(father.prototype);
+        const result = father.call(obj, ...args);
+        return typeof result === 'object' && typeof result !== null ? result : obj;
+    }
+</script>
+
+</html>

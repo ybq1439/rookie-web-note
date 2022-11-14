@@ -596,7 +596,27 @@ Array.of(1, 2, 3); // [1, 2, 3]
 Array(1, 2, 3);    // [1, 2, 3]
 ```
 
-​	
+### 15-addeventListener 第三个参数？
+
+```javascript
+//语法
+addEventListener(type, listener, options);
+addEventListener(type, listener, useCapture);
+```
+
+#### 	1-第三个参数为一个`options`对象，可以控制事件的触发：
+
+​		options 的一些属性：
+
+​		1-`capture`：为`true`,事件会在捕获阶段触发;
+
+​		2-`once`：为`true`，事件只会被触发一次；
+
+​		3-`passive`：`true` 永远不会阻止默认事件发生；
+
+#### 	2-第三个参数为一个`boolean`值，控制这事件在传播的时候，触发：
+
+​		`useCapture`:`true` 事件捕获阶段触发。
 
 
 

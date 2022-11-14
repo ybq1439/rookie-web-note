@@ -14,7 +14,7 @@ let deb = function (fn, delay, imme) {
             timer = setTimeout(() => {
                 timer = null
             }, delay)
-            fn.apply(this.args)
+            fn.apply(this, args)
         } else {
             timer = setTimeout(() => {
                 fn.apply(this, args)
