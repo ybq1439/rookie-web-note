@@ -34,17 +34,75 @@
 
 ### 	常用 hooks：
 
-​		（1）useState：在函数式组件中维护状态；
+### 		（1）useState：在函数式组件中维护状态；
 
-​		（2）useEffect：副作用钩子，相当于是 **componentDidMount、componentDidUpdate、componentWillUnmount** 的组合；
+### 		（2）useEffect：副作用钩子，相当于是 **componentDidMount、componentDidUpdate、componentWillUnmount** 的组合；
 
-​				仅仅传递第一个参数，函数的话，相当于是 componentDidMount、componentDidUpdate；
+#### 			2-1 仅仅传递第一个参数，函数的话，相当于是 componentDidMount、componentDidUpdate；
 
-​				清除 effect：仅仅传递第一个参数，函数，并且函数里面返回一个函数，那么这个被返回的函数会在类似类组件 componentWillUnmount 中，组件卸载之前执行；
+#### 			2-2 第二个参数，数组：依赖项，传递空数组则 **只有在 componentDidMount 执行**；
 
-​				第二个参数，数组：依赖项，传递空数组则 **只有在 componentDidMount 执行**；
+#### 			2-3 **清除 effect**：
 
-​		（3）useRef：`useRef` 返回一个可变的 ref 对象，其 `.current` 属性被初始化为传入的参数；
+##### 				组件卸载时需要清除 effect 创建的诸如订阅或计时器 ID 等资源，实现这种功能需要返回一个清除函数。
+
+```jsx
+useEffect(() => {
+  const subscription = props.source.subscribe();
+  return () => {
+    // 清除订阅
+    subscription.unsubscribe();
+  };
+});
+```
+
+#### 			2-4清除 `effect`函数触发条件：
+
+​			（1）会在组件 `卸载前`执行；
+
+​			（2）组件每一次重新渲染也会执行，保证 **执行下一次 effect 之前，上一个 effect 就已经清除**；
+
+#### 			3-`effect`执行时机：
+
+​			不等同于`componentDidMount`,`componentDidUpdate`，传给 `useEffect` 的函数会在浏览器完成布局与绘制**之后**，在一个延迟事件中被调用。
+
+### （3）useLayoutEffect 钩子
+
+​			有的`effect`不可以被延时执行，例如一个对用户可见的`DOM`变更，就需要在浏览器`下一次绘制`之前执行，否则用户会感觉到视觉不一致。它和 `useEffect` 的结构相同，区别只是调用时机不同。
+
+**！！！** React 18 开始，当它是离散的用户输入（如点击）的结果时，或者当它是由 `flushSync` 包装的更新结果时，传递给 `useEffect` 的函数将在屏幕布局和绘制**之前**同步执行。这种行为便于事件系统或 `flushSync` 的调用者观察该效果的结果。
+
+### （4）useRef：`useRef` 返回一个可变的 ref 对象，其 `.current` 属性被初始化为传入的参数；
+
+#### 	使用场景1：命令的访问子组件：
+
+```jsx
+function TextInputWithFocusButton() {
+  const inputEl = useRef(null);
+  const onButtonClick = () => {
+    // `current` 指向已挂载到 DOM 上的文本输入元素
+    inputEl.current.focus();
+  };
+  return (
+    <>
+      <input ref={inputEl} type="text" />
+      <button onClick={onButtonClick}>Focus the input</button>
+    </>
+  );
+}
+```
+
+#### 	使用场景2：`useRef`可以用来保存任何可变值。
+
+#### 	特点：1-返回一个普通的对象，不过与我们自己去创建一个`{current:...}`对象不同，`useRef`每一次都会返回同一个`ref`对象。2-`ref.current`发生改变，不会引起组件的重新渲染。3-`ref`对象发生改变，`useRef`并不会通知我们，不过像在 `React绑定或者解绑的ref`的时候触发某些逻辑代码，可以通过`回调ref，useCallBack()`实现。
+
+### 	（5）useMemo()：
+
+​	返回一个 [memoized](https://en.wikipedia.org/wiki/Memoization) 值。
+
+​	记住，传入 `useMemo` 的函数会在渲染期间执行。
+
+​	**你可以把 `useMemo` 作为性能优化的手段，但不要把它当成语义上的保证。**
 
 ### 	如何实现一个 hooks 自定义 hooks：
 
