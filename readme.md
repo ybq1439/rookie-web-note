@@ -214,6 +214,8 @@
 
 ​	`!important` > `内联样式` > `ID 选择器` > `类选择器、伪类选择器、属性选择器` > `标签选择器、伪元素选择器` > `通配符、子类选择器、兄弟选择器` > `继承的样式` ；
 
+
+
 # JavaScript 相关
 
 ### 1-解析字符串中的数字和字符串强制类型转化的区别？
@@ -618,7 +620,64 @@ addEventListener(type, listener, useCapture);
 
 ​		`useCapture`:`true` 事件捕获阶段触发。
 
+### 16-`弱 map`和`弱 set`？
 
+#### 弱`map`与 `map`的区别：
+
+​	（1）弱 map 只接受**对象，引用地址**作为键；而 map 的键和值都可以是任何类型；
+
+​	（2）`weakMap`中的键所指的对象，是一个弱引用，垃圾回收的时候，不会把`weakMap`的引用考虑，如果该对象其他的引用为空了，那么这个对象会被回收掉；
+
+​	（3）确定`键的唯一性`，`weakMap`是看地址引用；
+
+#### `weakSet`与`set`的区别：
+
+​	（1）`set`里面的元素可以是任意类型值，但是`weakSet`中的元素只能是`对象`;
+
+​	（2）`weakSet`判断唯一性，就是元素的地址啦；
+
+​	（3）`weakSet`元素是弱引用，里面的对象是会被垃圾回收机制回收的；
+
+​	（4）也就是因为是弱引用，所以`weakSet`是无法遍历的，因为有可能两个时刻，有的元素被回收了；
+
+#### `weakSet`api
+
+​	（1）add(val)；
+
+​	（2）delete(val);
+
+​	（3）has(val);
+
+​	（4）size(无)；
+
+### 17-`symbol`类型
+
+#### （1）基本数据类型，作为构造函数不完整，不支持`new Symbol()`；
+
+#### （2）创建一个`symbol`；
+
+​	语法：`Symbol([description])` `descrption` 是这个`symbol`的描述符，需要是字符串
+
+```javascript
+
+var sym1 = Symbol();
+var sym2 = Symbol('foo');
+var sym3 = Symbol('foo');
+```
+
+#### （3）常见的`symbol`
+
+##### 	1-`symbol.iterator`:一个返回一个对象默认迭代器的方法。被 `for...of` 使用;
+
+#### 	(4)使用场景:
+
+##### 		(1)定义对象中的特定变量,而不要担心命名会冲突;
+
+#### 	(5)特点:
+
+###### 		(1)不会被`for...in`循环迭代到;`Object.getOwnPropertyNames()`不会返回`symbol`对象的属性;
+
+###### 		(2)可以使用`Object.getOwnPropertySymbols()`读取该对象所有`symbol`;
 
 Node
 
@@ -983,7 +1042,11 @@ router.post('/getFreeTime', function (req, res, next) {
 
 ##### 	（3）第三范式：首先满足第二范式，然后非主键直接依赖主键；而不是`主键-->属性A，属性A-->属性B`；例如：学号，课程号，教师名；
 
-#### 5-索引的作用？
+#### 5-数据库索引？
+
+##### 作用：使得我们可以快速的访问数据库中的数据。
+
+##### 索引数据结构：`B+树`
 
 # 操作系统
 
