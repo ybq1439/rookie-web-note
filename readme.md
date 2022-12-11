@@ -679,6 +679,27 @@ var sym3 = Symbol('foo');
 
 ###### 		(2)可以使用`Object.getOwnPropertySymbols()`读取该对象所有`symbol`;
 
+### 18- `map`的坑
+
+​	1-`map` 可以使用`map[key]`访问吗？
+
+​	 可以，但是不推荐这么使用，因为这样使用的前提是通过 `map[key] = value`赋值。**但这种设置属性的方式不会改变 Map 的数据结构。**它使用的是**通用对象的特性**。`'bla'` **的值未被存储在 Map 中**，无法被查询到。其它的对这一数据的操作也会失败。
+
+```javascript
+const wrongMap = new Map();
+wrongMap['bla'] = 'blaa';
+wrongMap['bla2'] = 'blaaa2';
+
+console.log(wrongMap); // Map { bla: 'blaa', bla2: 'blaaa2' }
+wrongMap.has('bla')    // false
+wrongMap.delete('bla') // false
+console.log(wrongMap)  // Map { bla: 'blaa', bla2: 'blaaa2' }
+```
+
+​	2-`map[key] = 123`,与`map.set(key,123)`区别？
+
+​	一个是使用通用对象属性，一个是使用`map`数据结构的属性。
+
 Node
 
 ### 	1-node 中的事件循环？注意是 setTimeout 不是 setTimerout。
