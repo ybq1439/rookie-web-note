@@ -36,6 +36,10 @@
 
 ### 		（1）useState：在函数式组件中维护状态；
 
+#### 	1-这种情况跳过`state`的更新：
+
+​		`react`使用`Object.is()`比较相同，则会跳过子组件渲染，也不会触发`effect`。
+
 ### 		（2）useEffect：副作用钩子，相当于是 **componentDidMount、componentDidUpdate、componentWillUnmount** 的组合；
 
 #### 			2-1 仅仅传递第一个参数，函数的话，相当于是 componentDidMount、componentDidUpdate；
@@ -60,7 +64,7 @@ useEffect(() => {
 
 ​			（1）会在组件 `卸载前`执行；
 
-​			（2）组件每一次重新渲染也会执行，保证 **执行下一次 effect 之前，上一个 effect 就已经清除**；
+​			（2）组件每一次重新渲染也会执行，保证 **执行下一次 effect 之前，上一个 effect 就已经清除**；也就i是重新渲染的时候，清除effect会先触发。
 
 #### 			3-`effect`执行时机：
 
@@ -103,6 +107,15 @@ function TextInputWithFocusButton() {
 ​	记住，传入 `useMemo` 的函数会在渲染期间执行。
 
 ​	**你可以把 `useMemo` 作为性能优化的手段，但不要把它当成语义上的保证。**
+
+### （6）useContext：
+
+```jsx
+const MyContext =  React.createContext(info);//传递进去的是默认值，只有在没有找到上层Provider时，获取默认值
+const value = useContext(MyContext);//传入的一个Context对象
+```
+
+
 
 ### 	如何实现一个 hooks 自定义 hooks：
 
@@ -164,3 +177,47 @@ function useFriendStatus(friendID) {
 ​	2-props 在组件内部是不可修改的，但 state 在组件内部可以进行修改；
 
 ## 6-函数式组件与类组件？
+
+## 7-Context
+
+### 	APi：
+
+​	1-React.createContext（）
+
+​	2-Context.Provider
+
+​	3-`Context.Consumer`：与 `useContext`用法不同，这个里面接受一个函数，参数为最近的`Provider`传递的`value`。
+
+​	4-class.contextType：类组件上的一个属性，挂载 `Context`，通过`this.context`访问。
+
+### 	更新`context`
+
+​		特别注意，createContext 只是传递进入一个默认值，想要更新，可以传入一个 state,setState
+
+```jsx
+import React, { useState } from 'react';
+import MyContext from './context';
+
+const ContextPlay = () => {
+    const [name, setName] = useState('ybq');
+    return (
+        <MyContext.Provider value={{ name, setName }}>
+            <MyContext.Consumer>
+                {
+                    ({ name, setName }) =>
+                    (
+                        <div>
+                            <h1>name:{name}</h1>
+                            <button onClick={() => name === 'ybq' ? setName('yyy') : setName('ybq')}>修改名字</button>
+                        </div>
+                    )
+                }
+
+            </MyContext.Consumer>
+        </MyContext.Provider>
+    )
+}
+export default ContextPlay;
+```
+
+​	

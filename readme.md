@@ -700,6 +700,19 @@ console.log(wrongMap)  // Map { bla: 'blaa', bla2: 'blaaa2' }
 
 ​	一个是使用通用对象属性，一个是使用`map`数据结构的属性。
 
+### 19- 如何中止`fetch`请求?
+
+​	通过请求终止对象控制。
+
+​	`fetch`请求函数中，有一个选项`signal`，表示该请求是否终止。
+
+```javascript
+ const control = new AbortController();
+ const { signal } = control;
+ window.fetch(...,{signal});
+ control.abort();//终止fetch请求
+```
+
 Node
 
 ### 	1-node 中的事件循环？注意是 setTimeout 不是 setTimerout。
