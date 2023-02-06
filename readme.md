@@ -713,6 +713,15 @@ console.log(wrongMap)  // Map { bla: 'blaa', bla2: 'blaaa2' }
  control.abort();//终止fetch请求
 ```
 
+## 20-object.is() 方法
+
+比较两个参数是否为同一个值。1-对符号敏感。2-不会强制类型转化。
+
+```javascript
+Object.is(value1, value2);
+Object.is(+0,-0);//false
+```
+
 Node
 
 ### 	1-node 中的事件循环？注意是 setTimeout 不是 setTimerout。
