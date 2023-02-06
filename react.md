@@ -194,6 +194,7 @@ function useFriendStatus(friendID) {
 
 ​		特别注意，createContext 只是传递进入一个默认值，想要更新，可以传入一个 state,setState
 
+
 ```jsx
 import React, { useState } from 'react';
 import MyContext from './context';
