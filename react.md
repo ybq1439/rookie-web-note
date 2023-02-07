@@ -102,17 +102,100 @@ function TextInputWithFocusButton() {
 
 ### 	（5）useMemo()：
 
-​	返回一个 [memoized](https://en.wikipedia.org/wiki/Memoization) 值。
+​	返回一个**`memoized`的值**。
 
-​	记住，传入 `useMemo` 的函数会在渲染期间执行。
+​	记住，传入 `useMemo` 的函数会在**渲染期间执行**。
 
 ​	**你可以把 `useMemo` 作为性能优化的手段，但不要把它当成语义上的保证。**
+
+```jsx
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
+
+
+### useCallback：
+
+​	返回一个**`memoized`的回调函数。**返回传入的回调函数的`memoized`版本。
+
+​	记住，传入 `useMemo` 的函数会在**渲染期间执行**。
+
+​	`useCallback(fn, deps)` 相当于 `useMemo(() => fn, deps)`。
 
 ### （6）useContext：
 
 ```jsx
 const MyContext =  React.createContext(info);//传递进去的是默认值，只有在没有找到上层Provider时，获取默认值
 const value = useContext(MyContext);//传入的一个Context对象
+```
+
+### （7）useReducer：
+
+​	React 会确保 `dispatch` 函数的标识是稳定的，并且**不会在组件重新渲染时改变**。这就是为什么可以安全地从 `useEffect` 或 `useCallback` 的依赖列表中**省略** `dispatch`。
+
+​	`useState`升级版，能够实现对`state`更加复杂德逻辑。例如下面计数器。
+
+```jsx
+import React, { useReducer } from 'react';
+
+const initState = { counter: 0 };
+function reducer(state, action) {
+    switch (action.type) {
+        case 'increment':
+            return { counter: state.counter + 1 };
+        case 'decrement':
+            return { counter: state.counter - 1 };
+        default:
+            throw new Error('action wrong');
+    }
+};
+const ReducerTest = () => {
+    const [state, dispatch] = useReducer(reducer, initState);
+    return (
+        <div>
+            <h1>计数器:{state.counter}</h1>
+            <button onClick={() => dispatch({ type: 'increment' })}>+</button>
+            <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
+        </div>
+    )
+};
+
+export default ReducerTest;
+```
+
+#### 惰性初始化：1-可以提取出初始化逻辑。2-重置state更加方便。
+
+这里初始值经过计算后变成`1`。
+
+```jsx
+import React, { useReducer } from 'react';
+
+const initState = { counter: 0 };
+function init(initialCount) {
+    return { counter: initialCount.counter + 1 }
+};
+function reducer(state, action) {
+    switch (action.type) {
+        case 'increment':
+            return { counter: state.counter + 1 };
+        case 'decrement':
+            return { counter: state.counter - 1 };
+        default:
+            throw new Error('action wrong');
+    }
+};
+const ReducerTest = () => {
+    const [state, dispatch] = useReducer(reducer, initState, init);
+    return (
+        <div>
+            <h1>计数器:{state.counter}</h1>
+            <button onClick={() => dispatch({ type: 'increment' })}>+</button>
+            <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
+        </div>
+    )
+};
+
+export default ReducerTest;
 ```
 
 
