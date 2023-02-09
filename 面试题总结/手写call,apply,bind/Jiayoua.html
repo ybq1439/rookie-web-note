@@ -20,23 +20,23 @@
 </body>
 <script>
     Function.prototype.myCall = function (target = window, ...args) {
-        let fun = this;
-        target.fn = fun;
-        const result = target.fn(...args);
-        delete target.fn;
+        const fn = this;
+        target.fun = fn;
+        const result = target.fun(...args);
+        delete target.fun;
         return result;
     }
     Function.prototype.myApply = function (target = window, args) {
-        let fun = this;
-        target.fn = fun;
-        const result = target.fn(...args);
-        delete target.fn;
-        return result
+        const fn = this;
+        target.fun = fn;
+        const result = target.fun(...args);
+        delete target.fun;
+        return result;
     }
     Function.prototype.myBind = function (target = window, ...args) {
-        let fun = this;
-        return function () {
-            return fun.apply(target, [...args, ...arguments])
+        const fn = this;
+        return function Fn(...args2) {
+            const result = fn.apply(this instanceof Fn ? this : target, [...args, ...args2]);
         }
     }
 </script>

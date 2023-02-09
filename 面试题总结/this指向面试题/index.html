@@ -21,10 +21,11 @@
     let person = {
       age: 18,
       sayAge: () => {
+        console.log(this)
         console.log(this.age); //
       },
     };
-    person.sayAge();
+    person.sayAge();//20
     console.log(window.age);
     ///2---------
     var name = "ybq";

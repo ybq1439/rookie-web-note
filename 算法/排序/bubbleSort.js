@@ -34,24 +34,20 @@ const BubbleSort = (arr) => {
 }
 
 const bubbleSort_ = (arr) => {
-    let result = [...arr];
-    const totalLength = result.length;
-    if (totalLength <= 1) {
-        return result
-    }
+    const totalLength = arr.length;
     for (let i = 0; i < totalLength - 1; i++) {
-        let ifSwap = false;
-        for (let j = 0; j < totalLength - 1 - i; j++) {
-            if (result[j] > result[j + 1]) {
-                [result[j], result[j + 1]] = [result[j + 1], result[j]];
-                ifSwap = true;
+        let ifSwag = false;
+        for (let j = 0; j < totalLength - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
             }
+            ifSwag = true;
         }
-        if (!ifSwap) {
-            break
+        if (!ifSwag) {
+            break;
         }
     }
-    return result
+    return arr;
 };
 
 const testArray = [5, 9, 2, 4, 6, 2]

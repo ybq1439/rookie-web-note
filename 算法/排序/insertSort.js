@@ -33,15 +33,15 @@ const insertSort_ = (arr) => {
         return arr
     }
     for (let i = 1; i < totalLength; i++) {
-        const temp = arr[i];
+        const now = arr[i];
         let j = i;
-        while (j >= 1 && arr[j - 1] > temp) {
+        while (j > 0 && arr[j - 1] > now) {
             arr[j] = arr[j - 1];
             j--;
         }
-        arr[j] = temp;
+        arr[j] = now;
     }
-    return arr
+    return arr;
 };
 // const testArray = [5, 9, 2, 4, 6, 2]
 // const result = insertSort(testArray)

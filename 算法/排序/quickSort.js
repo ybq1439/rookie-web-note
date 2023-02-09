@@ -48,24 +48,26 @@ const quickSort_ = (arr, start, end) => {
     if (totalLength <= 1) {
         return
     }
-    const partition = (start, end) => {
-        let baseValue = arr[start];
-        while (start < end) {
-            while (start < end && arr[end] > baseValue) {
-                end--;
+    const partition = (array, startIndex, endIndex) => {
+        const mid = array[startIndex];
+        while (startIndex < endIndex) {
+            // 首先移动右指针
+            while (startIndex < endIndex && array[endIndex] >= mid) {
+                endIndex--;
             }
-            arr[start] = arr[end];
-            while (start < end && arr[start] < baseValue) {
-                start++;
+            array[startIndex] = array[endIndex];
+            while (startIndex < endIndex && array[startIndex] < mid) {
+                startIndex++;
             }
-            arr[end] = arr[start];
+            array[end] = array[start];
         }
-        arr[start] = baseValue;
-        return start
-    };
-    let midIndex = partition(0, totalLength - 1);
-    partition(0, midIndex - 1)
-    partition(midIndex + 1, totalLength - 1)
+        array[startIndex] = mid;
+        return startIndex;
+    }
+
+    let baseIndex = partition(arr, start, end);
+    quickSort(arr, start, baseIndex - 1);
+    quickSort(arr, baseIndex + 1, end);
 };
 const arrTest = [5, 3, 8, 1, 2]
 // quickSort(arrTest, 0, arrTest.length - 1)

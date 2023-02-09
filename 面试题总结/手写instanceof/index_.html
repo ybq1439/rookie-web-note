@@ -20,15 +20,15 @@
 </body>
 <script>
     function myInstanceOf(targetObj, instance) {
-        const instancePrototype = instance.prototype;
-        let targetProto = targetObj.__proto__;
-        while (targetProto) {
-            if (targetProto === instancePrototype) {
-                return true
+        const prototype = instance.prototype;
+        let proto = targetObj.__proto__;
+        while (proto !== null) {
+            if (proto === prototype) {
+                return true;
             }
-            targetProto = targetProto.__proto__;
+            proto = proto.__proto__;
         }
-        return false
+        return false;
     }   
 </script>
 

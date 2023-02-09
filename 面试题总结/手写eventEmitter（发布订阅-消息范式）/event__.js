@@ -12,27 +12,27 @@ class Event {
         };
     }
     on(eventName, fun) {
-        const oldCallBacks = this.event[eventName] || [];
-        oldCallBacks.push(fun);
-        this.event[eventName] = oldCallBacks;
+        const callBacks = this.event[eventName] || [];
+        callBacks.push(fun);
+        this.event[eventName] = callBacks;
     }
     emit(eventName, ...args) {
-        const callBacks = this.event[eventName];
-        callBacks.map((cb) => {
-            cb(...args)
+        const callBacks = this.event[eventName] || [];
+        callBacks.forEach((cb) => {
+            cb(...args);
         })
     }
     off(eventName, fun) {
-        const oldCallBacks = this.event[eventName] || [];
-        oldCallBacks.filter((item) => item !== fun && item.once !== fun);
-        this.event[eventName] = oldCallBacks;
+        const callBacks = this.event[eventName] || [];
+        callBacks = callBacks.filter((cb) => cb !== fun && cb.init !== fun)
+        this.event[eventName] = callBacks;
     }
     once(eventName, fun) {
-        const onceFun = (...args) => {
+        const one = (...args) => {
             fun(...args);
             this.off(eventName, fun)
         }
-        onceFun.once = fun;
-        this.on(eventName, onceFun)
+        one.init = fun;
+        this.on(eventName, one);
     }
 }
