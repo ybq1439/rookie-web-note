@@ -5,14 +5,6 @@
  * @Date: 2022-07-26 10:49:51
  * @LastEdiTime: 
 -->
-/*
-* @Descripttion:
-* @version:
-* @Author: ybq
-* @Date: 2022-07-26 10:49:51
-* @LastEdiTime:
-*/
-// 1-结果为 1
 <script>
     var foo = 1;
 
@@ -78,4 +70,10 @@
 
     const result = [10, 10, 10].map(parseInt);
     console.log('parseInt result:', result)
+
+    // 函数中使用var定义变量，会不会挂载window上 不会的
+    function fun4() {
+        var fun4P = 'ybq';
+    }
+    console.log(window.fun4P)
 </script>
