@@ -82,6 +82,10 @@
 
 ​			 XMLHttpRequest连接后浏览器开的一个线程，比如请求有回调函数，异步线程就会将回调函数加入事件队列，等待JS引擎空闲执行；
 
+### 9-html文件第一行代码DOCTYPE是用来做什么的？
+
+DOCTYPE是document type的简写，它并不是 HTML 标签，也没有结束标签，它是一种标记语言的**文档类型声明**，即告诉**浏览器当前 HTML 是用什么版本编写的**。
+
 # HTML相关
 
 ### 1-HTML5 新增特性？
@@ -214,7 +218,18 @@
 
 ​	`!important` > `内联样式` > `ID 选择器` > `类选择器、伪类选择器、属性选择器` > `标签选择器、伪元素选择器` > `通配符、子类选择器、兄弟选择器` > `继承的样式` ；
 
+### 7-flex:1,flex:2？
 
+`flex`属性是`flex-grow`, `flex-shrink` 和 `flex-basis【计算放大或者缩小的比例】`的简写，默认值为`0 1 auto`（后两个属性可选）。都是子元素上设置的属性。
+
+#### flex:1 ==> 1 1 0
+
+### 7-CSS 中隐藏一个元素？
+
+1. display:none。
+2. visibility:hidden; */\* 占据空间，无法点击 \*/*
+3.  opacity:0;*/\* 占据空间，可以点击 \*/*
+4. position:absolute；
 
 # JavaScript 相关
 
@@ -717,7 +732,7 @@ console.log(wrongMap)  // Map { bla: 'blaa', bla2: 'blaaa2' }
  control.abort();//终止fetch请求
 ```
 
-## 20-object.is() 方法
+### 20-object.is() 方法
 
 比较两个参数是否为同一个值。1-对符号敏感。2-不会强制类型转化。
 
@@ -725,6 +740,155 @@ console.log(wrongMap)  // Map { bla: 'blaa', bla2: 'blaaa2' }
 Object.is(value1, value2);
 Object.is(+0,-0);//false
 ```
+
+### 21-js继承方式？
+
+1-原型链继承：缺点：一个实例修改 原型对象上的属性是，另一个实例读取到的也是修改后的值；
+
+2-借用构造函数继承：借用 call 在子类的构造函数中调用父类的构造函数；
+
+优点：可以保证实例属性不共享；
+
+缺点：只能够继承父类实例上的属性和方法，父类原型上的方法不能够被继承下来；
+
+```js
+function Parent(){
+    this.name = 'parent1';
+}
+
+Parent.prototype.getName = function () {
+    return this.name;
+}
+
+function Child(){
+    Parent1.call(this);
+    this.type = 'child'
+}
+
+let child = new Child();
+console.log(child);  // 没问题
+console.log(child.getName());  // 会报错
+```
+
+3-组合继承：通过在子类的原型设置成一个新的父类实例实现。需要调用两次父类的构造函数，造成性能开销。
+
+```js
+function Parent3 () {
+    this.name = 'parent3';
+    this.play = [1, 2, 3];
+}
+
+Parent3.prototype.getName = function () {
+    return this.name;
+}
+function Child3() {
+    // 第二次调用 Parent3()
+    Parent3.call(this);
+    this.type = 'child3';
+}
+
+// 第一次调用 Parent3()
+Child3.prototype = new Parent3();
+// 手动挂上构造器，指向自己的构造函数
+Child3.prototype.constructor = Child3;
+var s3 = new Child3();
+var s4 = new Child3();
+s3.play.push(4);
+console.log(s3.play, s4.play);  // 不互相影响
+console.log(s3.getName()); // 正常输出'parent3'
+console.log(s4.getName()); // 正常输出'parent3'
+```
+
+4-原型式继承：这里主要借助`Object.create`方法实现普通对象的继承
+
+缺点：因为`Object.create`方法实现的是**浅拷贝**，多个实例的引用类型属性指向相同的内存，存在篡改的可能
+
+```js
+let parent4 = {
+    name: "parent4",
+    friends: ["p1", "p2", "p3"],
+    getName: function() {
+      return this.name;
+    }
+  };
+
+  let person4 = Object.create(parent4);
+  person4.name = "tom";
+  person4.friends.push("jerry");
+
+  let person5 = Object.create(parent4);
+  person5.friends.push("lucy");
+
+  console.log(person4.name); // tom
+  console.log(person4.name === person4.getName()); // true
+  console.log(person5.name); // parent4
+  console.log(person4.friends); // ["p1", "p2", "p3","jerry","lucy"]
+  console.log(person5.friends); // ["p1", "p2", "p3","jerry","lucy"]
+```
+
+5-寄生式继承：利用这个浅拷贝的能力再进行增强，添加一些方法。缺点和原型式继承一样。
+
+```js
+let parent5 = {
+    name: "parent5",
+    friends: ["p1", "p2", "p3"],
+    getName: function() {
+        return this.name;
+    }
+};
+
+function clone(original) {
+    let clone = Object.create(original);
+    clone.getFriends = function() {
+        return this.friends;
+    };
+    return clone;
+}
+
+let person5 = clone(parent5);
+
+console.log(person5.getName()); // parent5
+console.log(person5.getFriends()); // ["p1", "p2", "p3"]
+```
+
+6-寄生组合式继承：借助解决普通对象的继承问题的`Object.create` 方法，在前面几种继承方式的优缺点基础上进行改造，这也是所有继承方式里面相对最优的继承方式。
+
+```js
+function clone (parent, child) {
+    // 这里改用 Object.create 就可以减少组合继承中多进行一次构造的过程
+    child.prototype = Object.create(parent.prototype);//关键就是 object.create 函数
+    child.prototype.constructor = child;
+}
+
+function Parent6() {
+    this.name = 'parent6';
+    this.play = [1, 2, 3];
+}
+Parent6.prototype.getName = function () {
+    return this.name;
+}
+function Child6() {
+    Parent6.call(this);
+    this.friends = 'child5';
+}
+
+clone(Parent6, Child6);
+
+Child6.prototype.getFriends = function () {
+    return this.friends;
+}
+
+let person6 = new Child6();
+console.log(person6); //{friends:"child5",name:"child5",play:[1,2,3],__proto__:Parent6}
+console.log(person6.getName()); // parent6
+console.log(person6.getFriends()); // child5
+```
+
+### 22-阻止冒泡和默认事件：
+
+**w3c的方法是e.stopPropagation()，IE则是使用e.cancelBubble = true**。
+
+event.preventDefault()可以取消默认事件。IE：**e.returnValue = false;**
 
 Node
 
@@ -957,7 +1121,7 @@ router.post('/getFreeTime', function (req, res, next) {
 
 ​	（1）使用 **requestAnimationFrame** 取代 setTimeout、和 setInterval：它们两个都是宏任务，需要同一次事件循环中的 同步任务与 微任务队列 执行完成，才会拿出一个执行，这个是无法保证 **动画执行的时间**，也就有可能掉帧。
 
-​		requestAnimationFrame 优化：1-CPU 节能，当页面隐藏或者最小化时，会暂停渲染；2-函数节流，它的循环间隙时由 **屏幕刷新率决定的**，保证回调函数在屏幕的每一次刷新间隙中只会执行一次。
+​		requestAnimationFrame 优化：1-CPU 节能，当页面隐藏或者最小化时，会暂停渲染；2-**函数节流**，它的循环间隙时由 **屏幕刷新率决定的**，保证回调函数在屏幕的每一次刷新间隙中只会执行一次。
 
 ​	（2）使用 web Worker：把一些耗时 操作数据的，不影响 UI 的任务可以放到 worker 线程中后台执行，避免主线程的拥堵；
 
@@ -1221,7 +1385,7 @@ console.log(creatArray(1, 'x'))
 
 ### 1-JWT(JSON Web Token) 鉴权是什么？
 
-	JWT 本质上一种 字符串书写规范，是用来在用户与服务器之间传递安全可靠的信息。现在的前后端分离项目中，我们就会使用 这种方式去鉴权。
+	JWT 本质上一种 开放的标准，规定一种`token`的实现方式，是用来在用户与服务器之间传递安全可靠的信息。现在的前后端分离项目中，我们就会使用 这种方式去鉴权。
 
 #### 实现鉴权过程：
 
@@ -1241,3 +1405,12 @@ console.log(creatArray(1, 'x'))
 
 #### Token 的类型？
 
+# 什么是Docker容器？
+
+### 为什么需要Docker容器？
+
+软件开发最大的麻烦事之一，就是环境配置。用户计算机的环境都不相同，你怎么知道自家的软件，能在那些机器跑起来？
+
+### 是什么？
+
+**Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。**它是目前最流行的 Linux 容器解决方案。Docker 将应用程序与该程序的依赖，打包在一个文件里面。运行这个文件，就会生成一个虚拟容器。程序在这个虚拟容器里运行，就好像在真实的物理机上运行一样。有了 Docker，就**不用担心环境问题**。
