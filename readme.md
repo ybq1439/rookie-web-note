@@ -226,7 +226,7 @@ DOCTYPE是document type的简写，它并不是 HTML 标签，也没有结束标
 
 ### 7-CSS 中隐藏一个元素？
 
-1. display:none。
+1. display:none。不会占据空间
 2. visibility:hidden; */\* 占据空间，无法点击 \*/*
 3.  opacity:0;*/\* 占据空间，可以点击 \*/*
 4. position:absolute；
@@ -889,6 +889,17 @@ console.log(person6.getFriends()); // child5
 **w3c的方法是e.stopPropagation()，IE则是使用e.cancelBubble = true**。
 
 event.preventDefault()可以取消默认事件。IE：**e.returnValue = false;**
+
+### 22-判断一个对象不是null：
+
+1. 使用 `===`；
+
+2. ```js
+   let value = null;
+   if(!value&&type of value !=='undefined'&&value!=0)
+   ```
+
+   
 
 Node
 
