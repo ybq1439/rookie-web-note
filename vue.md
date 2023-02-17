@@ -30,12 +30,24 @@
 
 ### 	1-响应式原理不同；
 
+#### 为什么一定要使用`proxy`的方式取代`object.defineProperty`方法？
+
+有几个难以解决的问题：
+
+1. 对象属性和数组下标的变化必须通过 `Vue.set()` 和 `Vue.delete()` 这两个特殊的方法来进行，而不能直接修改对象属性或数组下标的值。
+2. 在处理**对象嵌套**的情况下，vue2中需要我们**手动的去递归实现每个属性的响应式**。而vue3中由于采用`proxy`的方式，我们不需要手动的去实现，直接调用`reactive`函数就好了。`ref()`用于实现值的响应式。
+3. 同时`proxy`能够有更多的拦截操作，更全面、灵活。
+
 ### 	2-vue3 中使用组合式 API 替代了 vue2 中的选项式 API；
+
+#### 什么是组合式API？
+
+组合式 API（Composition API）是 Vue 3 中引入的一组 API，用于更灵活地组织和重用组件逻辑。与 Vue 2.x 中通过选项的方式（如 `data`、`computed`、`methods` 等）来定义组件逻辑不同，组合式 API 通过**一组基础函数**（如 `ref`、`reactive`、`computed`、`watch` 等）以及 **`setup` 函数的方式，**提供了更加灵活、可重用、易于维护的组件逻辑组织方式。
 
 #### 	Vue3中为什么要使用组合式API？
 
 1. 更好的去组织代码：使用组合式API我们可以把相关的代码组织在一起，并且可以把逻辑拆分成更小的功能块；
-2. 更好的逻辑复用；
+2. 更好的逻辑复用；主要原因就是**数据与行为分离**。
 
 #### 	Vue2中使用（mixins）混入进行逻辑复用的缺点：
 
@@ -45,7 +57,83 @@
 
 ### 	3-生命周期不同：
 
-​		beforeCreate\created 钩子变成 setup; mount、 update 相关的在前面加 on ; destory 变成 OnUnMount；
+#### 	beforeCreate\created 钩子变成 setup; 
+
+1. 为什么要采用setUp这种形式？
+
+   1. 使用 `setUp` 函数可以避免在**组件实例化和更新时重新创建响应式数据对象**，从而减少了组件实例的创建数量，**提高了渲染性能**。在 Vue 2 中，每当一个组件被实例化时，就会创建一个响应式数据对象，这些响应式数据对象都会存放在组件实例中。在组件更新时，会**重新创建一个新的响应式数据对象**，从而**导致了不必要的性能开销**。
+
+      Vue 3 的 `setUp` 函数提供了一种新的组件创建方式，它使用了 **`proxy`** 来**代理组件的属性访问**，从而**避免了在组件更新时重新创建响应式数据对象的问题。**具体来说，每当一个组件更新时，**Vue 3 会对已有的 `proxy` 对象进行更新，而不是重新创建一个新的对象**，这样就可以避免不必要的性能开销。
+
+2. 执行时机有什么不同？
+   1. `beforeCreate`是在组件**实例化之后**，**初始化之前**被调用，此时组件的数据、计算属性、方法、watcher、事件等都没有被初始化。
+
+   2. `created`则是在组件创建之后被调用，此时组件的数据已经被初始化，计算属性、方法、watcher等也已经准备就绪，但是**真正的DOM元素还没有被渲染**出来。
+
+   3. `setup` 函数是在组件实例创建之前执行的，它可以访问组件的 props 和 context 对象，并且可以返回一个对象，该对象包含了模板中**需要用到的响应式数据和方法。**
+
+      1. context对象是什么？`setUp` 函数的第一个参数为 `context`，是一个包含了组件实例所需属性和方法的对象。它是一个预设的组件上下文对象，包含了以下属性：
+
+      - `attrs`：组件接收的非 prop 特性的对象，对应 Vue 2 的 `$attrs`。
+      - `slots`：插槽内容的对象，对应 Vue 2 的 `$slots`。
+      - `emit`：用于触发事件的函数，对应 Vue 2 的 `$emit`。
+      - `expose`：用于暴露组件的方法或属性，让父组件可以访问，对应 Vue 2 的 `$parent`
+
+3. 可以使得组件逻辑进行拆分，把关注点分离。也就是数据行为分离，**使得代码结构更加清晰，易于维护**，**也可以使得组件逻辑的复用性更好。**
+
+   1. 关注点分离指什么？也就是**数据和行为分离**，具体来说，vue2中，我们的数据与行为，都是写在同一个响应式对象中，例如分别两个选项：data，method。这种方式会使得组件难以维护。而vue3中，数据，行为都通过不同函数实现，实现分离。
+
+      ```vue
+      <template>
+        <div>
+          <p>{{ message }}</p>
+          <button @click="reverseMessage">Reverse Message</button>
+        </div>
+      </template>
+      
+      <script>
+      import { ref, computed } from 'vue'
+      
+      export default {
+        name: 'Example',
+        setup() {
+          // 使用 ref 定义响应式数据
+          const message = ref('Hello, World!')
+      
+          // 使用 computed 计算属性定义行为
+          const reversedMessage = computed(() => message.value.split('').reverse().join(''))
+      
+          const reverseMessage = () => {
+            // 修改响应式数据 行为
+            message.value = reversedMessage.value
+          }
+      
+          // 返回模板中需要的数据和行为
+          return {
+            message,
+            reverseMessage
+          }
+        }
+      }
+      </script>
+      
+      ```
+
+      
+
+#### beforeMount,mounted,beforeUpdate,updated为什么要改为前面加个on？
+
+​	这样做可以避免与`beforeMount`类似，库中存在同名冲突。
+
+#### beforeDestroy，destroyed === 》onBeforeUnmount，onUnmounted
+
+##### 有什么区别？
+
+1-Vue 2.x 的 `beforeDestroy` 和 `destroyed` 钩子是在**组件销毁前后调用的**，而 Vue 3.x 的 `onBeforeUnmount` 和 `onUnmounted` 钩子是在**组件卸载前后调用的**。在 Vue 3.x 中，组件卸载不一定会导致组件销毁，因为有可能组件会被缓存起来以便下次使用。因此，在 Vue 3.x 中，`onBeforeUnmount` 钩子是在**组件即将从页面中移除前调用**，`onUnmounted` 钩子是在**组件已经从页面中移除后调用**。
+
+2-vue3中缓存组件的时候，组件被缓存之前会触发 `beforeUnmount` 和 `unmounted` 钩子函数，但在组件被重新使用时，不会再触发这两个钩子函数。
+
+3-但是在 Vue 2.x 中，被缓存的组件**在被销毁时**，**仍然会触发 `beforeDestroy` 和 `destroyed` 钩子函数**。
 
 ### 	4-vue3 更好支持 TS;
 
