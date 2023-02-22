@@ -403,3 +403,76 @@ export default ContextPlay;
 2. 组件组合：HOC 可以将多个组件组合起来，形成一个新的组件，并且这些组件可以**共享一些相同的状态和逻辑**。
 3. 渲染劫持：通过 HOC 可以劫持原组件的渲染流程，在**渲染前后添加一些逻辑**。
 4. 条件渲染：通过 HOC 可以**根据条件动态选择渲染不同的组件**。
+
+## 13-react中的避免调停？
+
+### 什么叫做避免调停？
+
+（Avoiding UI Blocking）是一种优化策略，它能够确保在组件中只有必要的部分才会被重新渲染。
+
+### 通过什么实现的？
+
+React的避免调停主要是通过虚拟DOM和DOM-diff算法实现的。
+
+## 14-说说你是如何提高组件的渲染效率的？在React中如何避免不必要的render？
+
+### shouldComponentUpdate
+
+通过`shouldComponentUpdate`生命周期函数来比对 `state`和 `props`，确定是否要重新渲染，默认情况下返回`true`表示重新渲染，如果不希望组件重新渲染，返回 `false` 即可。
+
+```js
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.color !== nextProps.color) {
+      return true;
+    }
+    if (this.state.count !== nextState.count) {
+      return true;
+    }
+    return false;
+  }
+```
+
+### React.PureComponent
+
+#### 是什么？
+
+`React.PureComponent` 是 React 中的一个内置组件，它是 `React.Component` 的一个变体。它通过实现 **`shouldComponentUpdate`** 方法来对组件的更新进行优化，自动对组件的 `props` 和 `state` 进行**浅层比较**，避免不必要的渲染。
+
+```jsx
+class CounterButton extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {count: 1};
+  }
+
+  render() {
+    return (
+      <button
+        color={this.props.color}
+        onClick={() => this.setState(state => ({count: state.count + 1}))}>
+        Count: {this.state.count}
+      </button>
+    );
+  }
+}
+```
+
+### React.memo？
+
+`React.memo` 是一个**高阶组件**（Higher Order Component，简称 HOC），用于对**函数式组件**进行**浅层比较的优化**，类似于 `React.PureComponent`。当组件的输入参数没有变化时，`React.memo` 将会直接返回之前的渲染结果，避免不必要的重新渲染。
+
+第二个参数：比较函数，它用来决定是否更新组件。比较函数接收两个参数：前一个和后一个 props 对象。如果比较函数返回 `true`，则说明组件不需要更新；如果返回 `false`，则说明组件需要更新。
+
+```jsx
+import { memo } from 'react';
+function arePropsEqual(prevProps, nextProps) {
+  // your code
+  return prevProps === nextProps;
+}
+
+export default memo(Button, arePropsEqual);
+```
+
+## 15-为什么react要推崇单向数据量和不可变数据？
+
+简化状态管理，降级应用复杂度，提高性能和可维护性。
