@@ -736,6 +736,8 @@ console.log(wrongMap)  // Map { bla: 'blaa', bla2: 'blaaa2' }
 
 比较两个参数是否为同一个值。1-对符号敏感。2-不会强制类型转化。
 
+与 [`===`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators#全等运算符) 也不相同。差别是它们对待有符号的零和 NaN 不同
+
 ```javascript
 Object.is(value1, value2);
 Object.is(+0,-0);//false
