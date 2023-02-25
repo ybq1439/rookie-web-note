@@ -17,6 +17,9 @@
         console.log(true + true);
         // 2- 0 == '' ===>true
         console.log(0 == '');
+        // 3- [] == ![] ===>true !优先级高，先把[]转化为布尔值，右边就是false。
+        // 左边通过toString转为'0'，然后'0' == false
+        console.log([] == ![]); 
     }
 
 </script>
