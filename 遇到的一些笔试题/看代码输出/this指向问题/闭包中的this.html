@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    window.onload = function () {
+        var a = 'window';
+        function Parent() {
+            this.a = 'parent';
+            return function () {
+                console.log('闭包中的this', this);
+                console.log(this.a);
+            }
+        }
+        const child = new Parent();
+        const child2 = Parent()();//parent 这里是因为调用Parent时 window的a被置为parent
+        console.log(window.a);//parent 
+    }
+</script>
+
+</html>
